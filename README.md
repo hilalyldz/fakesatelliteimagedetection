@@ -1,3 +1,4 @@
+This project are taken from https://github.com/ColumbiaDVMM/AutoGAN.git 
 # Detecting and Simulating Artifacts in GAN Fake Images
 
 ##Introduction
