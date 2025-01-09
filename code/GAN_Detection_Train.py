@@ -36,7 +36,7 @@ import torch.nn as nn
 
 from torchvision import transforms, models
 import pggan_dnet
-from skimage.feature import greycomatrix
+from skimage.feature import graycomatrix
 
 parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 
@@ -120,7 +120,7 @@ suffix = suffix + '_{}'.format(args.model)
 
 if args.test_set == 'transposed_conv':
     #Use a small set to save the inferring time. Use the best model to test all the subsets in test phase. 
-    dataset_names = ['horse', 'winter'] 
+    dataset_names = ['satellite']
     #dataset_names = ['horse', 'zebra', 'summer', 'winter', 'apple', 'orange',
     #            'facades', 'cityscapes', 'satellite', 
     #            'ukiyoe', 'vangogh', 'cezanne', 'monet', 'photo', 'celeba_stargan']  
@@ -292,7 +292,8 @@ def train(train_loader, model, optimizer, criterion,  epoch, logger):
         if args.cuda:
             image_pair, label  = image_pair.cuda(), label.cuda()
             image_pair, label = Variable(image_pair), Variable(label)
-            out= model(image_pair)
+
+        out= model(image_pair)
 
         loss = criterion(out, label)
 

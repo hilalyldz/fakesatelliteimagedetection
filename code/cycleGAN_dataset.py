@@ -33,7 +33,7 @@ import cv2
 
 class cycleGAN_dataset(data.Dataset):
     def __init__(self, root, name, train=True, leave_one_out = False, transform=None, check_cached=False):
-        self.image_dir = './data/' 
+        self.image_dir = r"./datasets/"
         self.root = os.path.expanduser(root)
         self.name = name
         self.data_dir = os.path.join(self.image_dir, name)
@@ -46,9 +46,7 @@ class cycleGAN_dataset(data.Dataset):
                 'facades_auto', 'cityscapes_auto', 'satellite_auto', 
                 'fold6_auto', 'fold7_auto', 'fold8_auto', 'fold9_auto']
         else:
-            self.full_list = ['horse', 'zebra', 'apple', 'orange', 'winter', 'summer', 
-                'facades', 'cityscapes', 'satellite', 
-                'fold6', 'fold7', 'fold8', 'fold9'] 
+            self.full_list = ['satellite']
 
         name_list = name.split("+")
         self.data = None
@@ -91,7 +89,7 @@ class cycleGAN_dataset(data.Dataset):
         if check_cached:
             if self._check_datafile_exists(data_file):
                 print('# Found cached data {}'.format(data_file))
-                return
+                #return
 
         # process and save as torch files
         print('# Caching data {}'.format(data_file))
@@ -111,10 +109,11 @@ def read_image_file(data_dir, dataset_name, train_flag):
     label_list = []
     #load all possible jpg or png images
     if train_flag:
-        search_str = '{}/real/{}/trainA/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}real/{}/trainA/*.png'.format(data_dir, dataset_name)
     else:
-        search_str = '{}/real/{}/testA/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}/real/{}/testA/*.png'.format(data_dir, dataset_name)
 
+    print(f'Search string : {search_str}')
     for filename in glob.glob(search_str):
         image = cv2.imread(filename)
         if image.shape[0]!=256:
@@ -123,17 +122,17 @@ def read_image_file(data_dir, dataset_name, train_flag):
         label_list.append(1)
     
     if train_flag:
-        search_str = '{}/fake/{}/trainA/*.png'.format(data_dir, dataset_name)
+        search_str = '{}fake/{}/trainA/*.jpg'.format(data_dir, dataset_name)
     else:
-        search_str = '{}/fake/{}/testA/*.png'.format(data_dir, dataset_name)
+        search_str = '{}/fake/{}/testA/*.jpg'.format(data_dir, dataset_name)
 
     for filename in glob.glob(search_str):
         image = cv2.imread(filename) 
         image_list.append(image)
         label_list.append(0)
-
+    """
     if train_flag:
-        search_str = '{}/real/{}/trainB/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}real/{}/trainB/*.jpg'.format(data_dir, dataset_name)
     else:
         search_str = '{}/real/{}/testB/*.jpg'.format(data_dir, dataset_name)
 
@@ -143,7 +142,7 @@ def read_image_file(data_dir, dataset_name, train_flag):
         label_list.append(1)
 
     if train_flag:
-        search_str = '{}/fake/{}/trainB/*.png'.format(data_dir, dataset_name)
+        search_str = '{}fake/{}/trainB/*.png'.format(data_dir, dataset_name)
     else:
         search_str = '{}/fake/{}/testB/*.png'.format(data_dir, dataset_name)
 
@@ -151,6 +150,7 @@ def read_image_file(data_dir, dataset_name, train_flag):
         image = cv2.imread(filename) 
         image_list.append(image)
         label_list.append(0)
+        """
 
     return np.array(image_list), np.array(label_list)
 
