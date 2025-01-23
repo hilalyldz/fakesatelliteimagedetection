@@ -102,9 +102,7 @@ args = parser.parse_args()
 suffix = '{}'.format(args.training_set)
 
 if args.test_set == 'transposed_conv':
-    dataset_names = ['horse', 'zebra', 'summer', 'winter', 'apple', 'orange',
-                'facades', 'cityscapes', 'satellite', 
-                'ukiyoe', 'vangogh', 'cezanne', 'monet', 'photo', 'celeba_stargan']  
+    dataset_names = ['satellite']
     #dataset_names = ['horse+zebra', 'apple+orange', 'summer+winter', 'facades', 'cityscapes', 'satellite', 'fold6', 'fold7', 'fold8', 'fold9']
 elif args.test_set == 'nn':
     dataset_names = ['horse_nn',  'zebra_nn', 'summer_nn', 'winter_nn', 'apple_nn', 'orange_nn', 'horse', 'zebra', 'summer', 'winter', 'apple', 'orange']
@@ -137,7 +135,7 @@ if args.data_augment:
     suffix = suffix + '_da'
 if args.leave_one_out:
     suffix = suffix + '_oo'
-if args.feature is not 'image':
+if args.feature != 'image':
     suffix = suffix + '_{}_{}'.format(args.feature, args.mode)
 
 suffix = suffix + '_{}'.format(args.model)

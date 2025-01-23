@@ -61,7 +61,7 @@ else:
 number_gpu = len(gpu_set)
 
 if args.dataset == 'CycleGAN':
-    datasets = ['horse', 'zebra', 'summer', 'winter', 'apple', 'orange',  'facades', 'cityscapes', 'satellite', 'ukiyoe', 'vangogh', 'cezanne', 'monet', 'photo']
+    datasets = ['satellite']
 elif args.dataset == 'AutoGAN':
     datasets = ['horse_auto', 'zebra_auto', 'summer_auto', 'winter_auto', 'apple_auto', 'orange_auto', 'facades_auto', 'cityscapes_auto', 'satellite_auto', 'ukiyoe_auto', 'vangogh_auto', 'cezanne_auto', 'monet_auto', 'photo_auto']
 else:
