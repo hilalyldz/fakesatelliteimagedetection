@@ -130,11 +130,11 @@ def read_image_file(data_dir, dataset_name, train_flag):
         image = cv2.imread(filename) 
         image_list.append(image)
         label_list.append(0)
-    """
+
     if train_flag:
-        search_str = '{}real/{}/trainB/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}real/{}/trainB/*.png'.format(data_dir, dataset_name)
     else:
-        search_str = '{}/real/{}/testB/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}/real/{}/testB/*.png'.format(data_dir, dataset_name)
 
     for filename in glob.glob(search_str):
         image = cv2.imread(filename) 
@@ -142,15 +142,15 @@ def read_image_file(data_dir, dataset_name, train_flag):
         label_list.append(1)
 
     if train_flag:
-        search_str = '{}fake/{}/trainB/*.png'.format(data_dir, dataset_name)
+        search_str = '{}fake/{}/trainB/*.jpg'.format(data_dir, dataset_name)
     else:
-        search_str = '{}/fake/{}/testB/*.png'.format(data_dir, dataset_name)
+        search_str = '{}/fake/{}/testB/*.jpg'.format(data_dir, dataset_name)
 
     for filename in glob.glob(search_str):
         image = cv2.imread(filename) 
         image_list.append(image)
         label_list.append(0)
-        """
+
 
     return np.array(image_list), np.array(label_list)
 
