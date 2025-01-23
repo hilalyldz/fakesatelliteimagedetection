@@ -38,6 +38,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 import os
+import glob
 
 
 from torchvision import transforms, models
@@ -285,7 +286,7 @@ def create_loaders():
                      check_cached=args.check_cached,
                      transform=transform),
                         batch_size=args.test_batch_size,
-                        shuffle=True, **kwargs)}
+                        shuffle=False, **kwargs)}
                     for name in test_dataset_names]
 
     return train_loader, test_loaders
@@ -358,7 +359,25 @@ def test(test_loader, model, epoch, logger, logger_test_name):
         predicts.append(pred)
         outputs.append(out)
 
+    # calculation and saving performance metrics
+    performance_metrics(all_labels, all_preds)
+    display_random_test_samples(image_pair, label, pred)
 
+    num_tests = test_loader.dataset.labels.size(0)
+    labels = np.vstack(labels).reshape(num_tests)
+    predicts = np.vstack(predicts).reshape(num_tests)
+    outputs = np.vstack(outputs).reshape(num_tests,2)
+
+    print('\33[91mTest set: {}\n\33[0m'.format(logger_test_name))
+
+    acc = np.sum(labels == predicts)/float(num_tests)
+    print('\33[91mTest set: Accuracy: {:.8f}\n\33[0m'.format(acc))
+    
+    if (args.enable_logging):
+        logger.log_value(logger_test_name+' Acc', acc)
+    return
+
+def performance_metrics(all_labels, all_preds):
     # Generate and log classification report
     class_report = classification_report(all_labels, all_preds, target_names=args.class_names)
     conf_matrix = confusion_matrix(all_labels, all_preds)
@@ -382,20 +401,70 @@ def test(test_loader, model, epoch, logger, logger_test_name):
     plt.savefig(os.path.join(args.model_dir, "confusion_matrix.png"))
     plt.close()
 
+def display_random_test_samples(images, labels, preds):
+    #image, labels = read_image_file(args.data_dir, args.dataset_name, 0)
+    # Select five random indices
+    imggs, labs = read_test_images()
+    random_indices = random.sample(range(len(images)), 5)
 
-    num_tests = test_loader.dataset.labels.size(0)
-    labels = np.vstack(labels).reshape(num_tests)
-    predicts = np.vstack(predicts).reshape(num_tests)
-    outputs = np.vstack(outputs).reshape(num_tests,2)
+    # Plot the images with their ground truth and predicted labels
+    plt.figure(figsize=(15, 5))
+    for i, idx in enumerate(random_indices):
+        img_spec = images[idx].cpu().permute(1, 2, 0).numpy()  # Convert tensor to numpy (H, W, C)
+        img = cv2.cvtColor(imggs[idx], cv2.COLOR_BGR2RGB)
+        true_label = args.class_names[labels[idx].item()]
+        predicted_label = args.class_names[preds[idx].item()]
 
-    print('\33[91mTest set: {}\n\33[0m'.format(logger_test_name))
+        plt.subplot(2, 5, i + 1)
+        plt.imshow(img)
+        plt.title(f"True: {true_label}\nPred: {predicted_label}")
+        plt.subplot(2, 5, i + 6)
+        plt.imshow(img_spec)
+        plt.axis('off')
+    plt.show()
 
-    acc = np.sum(labels == predicts)/float(num_tests)
-    print('\33[91mTest set: Accuracy: {:.8f}\n\33[0m'.format(acc))
-    
-    if (args.enable_logging):
-        logger.log_value(logger_test_name+' Acc', acc)
-    return
+def read_test_images():
+    """
+    Reads images from the specified directories and returns image and label arrays.
+    :param data_dir: Base directory containing the dataset
+    :param dataset_name: Name of the dataset
+    :return: Tuple of numpy arrays (images, labels)
+    """
+    image_list = []
+    label_list = []
+    data_dir = args.dataroot
+    dataset_name = 'satellite'
+
+    # Define the search patterns for real and fake images
+    search_patterns = [
+        (f'{data_dir}/real/{dataset_name}/testA/*.png', 1),
+        (f'{data_dir}/fake/{dataset_name}/testA/*.jpg', 0),
+        (f'{data_dir}/real/{dataset_name}/testB/*.png', 1),
+        (f'{data_dir}/fake/{dataset_name}/testB/*.jpg', 0)
+    ]
+
+    for search_str, label in search_patterns:
+        print(f'Searching: {search_str}')
+        for filename in glob.glob(search_str):
+            try:
+                image = cv2.imread(filename)
+                if image is None:
+                    print(f"Warning: Unable to read {filename}. Skipping.")
+                    continue
+                # Resize image to 256x256 if needed
+                if image.shape[:2] != (256, 256):
+                    image = cv2.resize(image, (256, 256))
+                image_list.append(image)
+                label_list.append(label)
+            except Exception as e:
+                print(f"Error reading {filename}: {e}")
+
+    # Convert lists to numpy arrays
+    images = np.array(image_list, dtype=np.uint8)
+    labels = np.array(label_list, dtype=np.int32)
+
+    return images, labels
+
 
 def adjust_learning_rate(optimizer):
     """Updates the learning rate given the learning rate decay.
