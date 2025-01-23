@@ -33,6 +33,12 @@ import cv2
 import copy
 import cycleGAN_dataset
 import torch.nn as nn
+import logging
+from sklearn.metrics import classification_report, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+import os
+
 
 from torchvision import transforms, models
 import pggan_dnet
@@ -158,6 +164,8 @@ if args.seed>-1:
 # create loggin directory
 if not os.path.exists(args.log_dir):
     os.makedirs(args.log_dir)
+
+args.class_names = ['fake', 'real']
 
 
 class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
@@ -285,7 +293,7 @@ def create_loaders():
 def train(train_loader, model, optimizer, criterion,  epoch, logger):
     # switch to train mode
     model.train()
-    pbar = tqdm(enumerate(train_loader))
+    pbar = tqdm(enumerate(train_loader), total=len(train_loader))
     for batch_idx, data in pbar:
         image_pair, label = data
 
@@ -315,8 +323,13 @@ def train(train_loader, model, optimizer, criterion,  epoch, logger):
                '{}{}/checkpoint_{}.pth'.format(args.model_dir, suffix, epoch+1))
 
 def test(test_loader, model, epoch, logger, logger_test_name):
-    # switch to evaluate mode, caculate test accuracy
+    # evaluates the model on a test dataset
+    # calculates the accuracy
+    # logs the results
     model.eval()
+
+    all_preds = []
+    all_labels = []
 
     labels, predicts = [], []
     outputs = []
@@ -328,12 +341,42 @@ def test(test_loader, model, epoch, logger, logger_test_name):
             image_pair, label = Variable(image_pair), Variable(label)
         out = model(image_pair)
         _, pred = torch.max(out,1)
+        # Store predictions and true labels for classification report
+        preds = torch.argmax(out, dim=1)  # Convert logits to class predictions
+        all_preds.extend(preds.cpu().numpy())
+        all_labels.extend(label.cpu().numpy())
+
         ll = label.data.cpu().numpy().reshape(-1, 1)
         pred = pred.data.cpu().numpy().reshape(-1, 1)
         out = out.data.cpu().numpy().reshape(-1, 2)
         labels.append(ll)
         predicts.append(pred)
         outputs.append(out)
+
+
+    # Generate and log classification report
+    class_report = classification_report(all_labels, all_preds, target_names=args.class_names)
+    conf_matrix = confusion_matrix(all_labels, all_preds)
+    logging.info(f"Classification Report:\n{class_report}")
+    print(f"Classification Report:\n{class_report}")
+    print(f"Confusion Matrix:\n{conf_matrix}")
+
+    # Save the classification report to a file
+    report_file_path = os.path.join(args.model_dir, "classification_report_test.txt")
+    with open(report_file_path, 'w') as f:
+        f.write(f"Classification Report:\n{class_report}\n")
+        f.write(f"Confusion Matrix:\n{conf_matrix}\n")
+
+    # Visualize the confusion matrix
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+                xticklabels=args.class_names, yticklabels=args.class_names)
+    plt.xlabel('Predicted Labels')
+    plt.ylabel('True Labels')
+    plt.title('Confusion Matrix')
+    plt.savefig(os.path.join(args.model_dir, "confusion_matrix.png"))
+    plt.close()
+
 
     num_tests = test_loader.dataset.labels.size(0)
     labels = np.vstack(labels).reshape(num_tests)
