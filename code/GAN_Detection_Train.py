@@ -285,7 +285,7 @@ def create_loaders():
                      check_cached=args.check_cached,
                      transform=transform),
                         batch_size=args.test_batch_size,
-                        shuffle=False, **kwargs)}
+                        shuffle=True, **kwargs)}
                     for name in test_dataset_names]
 
     return train_loader, test_loaders
