@@ -292,6 +292,9 @@ def create_loaders():
 
 def train(train_loader, model, optimizer, criterion,  epoch, logger):
     # switch to train mode
+
+    logging.basicConfig(filename='training.log', level=logging.INFO, format='%(message)s')
+
     model.train()
     pbar = tqdm(enumerate(train_loader), total=len(train_loader))
     for batch_idx, data in pbar:
@@ -304,11 +307,13 @@ def train(train_loader, model, optimizer, criterion,  epoch, logger):
         out= model(image_pair)
 
         loss = criterion(out, label)
+        logging.info(f"Batch {batch_idx}, Loss: {loss.item():.4f}")  # Log the loss
 
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-    adjust_learning_rate(optimizer)
+        optimizer.zero_grad() #clears any previously computed gradients to prevent accumulation from multiple backward passes.
+        loss.backward() #computes the gradients of the model parameters with respect to the loss.
+        optimizer.step() #updates the model parameters using the computed gradients.
+        pbar.set_description(f"Batch {batch_idx} Loss: {loss.item():.4f}")
+    adjust_learning_rate(optimizer) #for stochastic gradient descent
 
     if (args.enable_logging):
         logger.log_value('loss', loss.data.item()).step()
@@ -455,14 +460,14 @@ if __name__ == '__main__':
     LOG_DIR = args.log_dir
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)
-    LOG_DIR = args.log_dir + suffix
+    LOG_DIR = args.log_dir + suffix  #creating log directory
     logger, file_logger = None, None
 
     pretrain_flag = not args.feature=='comatrix'
     if args.model == 'resnet':
         model = models.resnet34(pretrained=True)
-        num_ftrs = model.fc.in_features
-        model.fc = nn.Linear(num_ftrs, 2)
+        num_ftrs = model.fc.in_features  #Gets the number of input features for the fully connected (fc) layer.
+        model.fc = nn.Linear(num_ftrs, 2)  #Replaces the original fully connected layer with a new one that has 2 output classes. This adapts the model for binary classification.
     elif args.model == 'pggan':
         model = pggan_dnet.SimpleDiscriminator(3, label_size=1, mbstat_avg='all',
                 resolution=256, fmap_max=128, fmap_base=2048, sigmoid_at_end=False)
