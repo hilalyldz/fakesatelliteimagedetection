@@ -404,8 +404,8 @@ def test(test_loader, model, epoch, logger, logger_test_name):
         outputs.append(out)
 
     # calculation and saving performance metrics
-    performance_metrics(all_labels, all_preds)
-    display_random_test_samples(image_pair, label, pred)
+    performance_metrics(all_labels, all_preds, epoch)
+    display_random_test_samples(image_pair, all_labels, all_preds)
 
     num_tests = test_loader.dataset.labels.size(0)
     labels = np.vstack(labels).reshape(num_tests)
@@ -421,7 +421,7 @@ def test(test_loader, model, epoch, logger, logger_test_name):
         logger.log_value(logger_test_name+' Acc', acc)
     return
 
-def performance_metrics(all_labels, all_preds):
+def performance_metrics(all_labels, all_preds, epoch):
     # Generate and log classification report
     class_report = classification_report(all_labels, all_preds, target_names=args.class_names)
     conf_matrix = confusion_matrix(all_labels, all_preds)
@@ -434,6 +434,7 @@ def performance_metrics(all_labels, all_preds):
     with open(report_file_path, 'w') as f:
         f.write(f"Classification Report:\n{class_report}\n")
         f.write(f"Confusion Matrix:\n{conf_matrix}\n")
+        f.write("\n" + "=" * 50 + "\n")  # Add a separator between epochs for clarity
 
     # Visualize the confusion matrix
     plt.figure(figsize=(8, 6))
