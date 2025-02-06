@@ -44,6 +44,9 @@ import glob
 from torchvision import transforms, models
 import pggan_dnet
 from skimage.feature import graycomatrix
+from torch.utils.data import DataLoader, random_split
+import copy
+import torchvision.transforms as transforms
 
 parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 
@@ -265,68 +268,109 @@ def create_loaders():
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
             ])
 
-    train_loader = torch.utils.data.DataLoader(
-            GANDataset(train=True,
-                             batch_size=args.batch_size,
-                             root=args.dataroot,
-                             name=args.training_set,
-                             check_cached=args.check_cached,
-                             leave_one_out = args.leave_one_out,
-                             transform=transform),
-                             batch_size=args.batch_size,
-                             shuffle=True, **kwargs)
+    # Load full training dataset
+    full_train_dataset = GANDataset(
+        train=True,
+        batch_size=args.batch_size,
+        root=args.dataroot,
+        name=args.training_set,
+        check_cached=args.check_cached,
+        leave_one_out=args.leave_one_out,
+        transform=transform
+    )
+
+    # Split into train (80%) and validation (20%)
+    train_size = int(0.8 * len(full_train_dataset))
+    val_size = len(full_train_dataset) - train_size
+    train_dataset, val_dataset = random_split(full_train_dataset, [train_size, val_size])
+
+    # Create loaders
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, **kwargs)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, **kwargs)
 
     test_loaders = [{'name': name,
-                     'dataloader': torch.utils.data.DataLoader(
-             GANDataset(train=False,
-                     leave_one_out = False,
-                     batch_size=args.test_batch_size,
-                     root=args.dataroot,
-                     name=name,
-                     check_cached=args.check_cached,
-                     transform=transform),
-                        batch_size=args.test_batch_size,
-                        shuffle=False, **kwargs)}
+                     'dataloader': DataLoader(
+                         GANDataset(train=False,
+                                    leave_one_out=False,
+                                    batch_size=args.test_batch_size,
+                                    root=args.dataroot,
+                                    name=name,
+                                    check_cached=args.check_cached,
+                                    transform=transform),
+                         batch_size=args.test_batch_size,
+                         shuffle=False, **kwargs)}
                     for name in test_dataset_names]
 
-    return train_loader, test_loaders
+    return train_loader, val_loader, test_loaders
 
-def train(train_loader, model, optimizer, criterion,  epoch, logger):
-    # switch to train mode
 
+def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
+    # Enable logging
     logging.basicConfig(filename='training.log', level=logging.INFO, format='%(message)s')
 
+    # Switch to train mode
     model.train()
+    train_loss = 0.0
     pbar = tqdm(enumerate(train_loader), total=len(train_loader))
+
     for batch_idx, data in pbar:
         image_pair, label = data
 
         if args.cuda:
-            image_pair, label  = image_pair.cuda(), label.cuda()
-            image_pair, label = Variable(image_pair), Variable(label)
+            image_pair, label = image_pair.cuda(), label.cuda()
 
-        out= model(image_pair)
+        image_pair, label = Variable(image_pair), Variable(label)
 
+        optimizer.zero_grad()  # Clear gradients
+        out = model(image_pair)
         loss = criterion(out, label)
+        loss.backward()  # Compute gradients
+        optimizer.step()  # Update parameters
+
+        train_loss += loss.item()
         logging.info(f"Batch {batch_idx}, Loss: {loss.item():.4f}")  # Log the loss
-
-        optimizer.zero_grad() #clears any previously computed gradients to prevent accumulation from multiple backward passes.
-        loss.backward() #computes the gradients of the model parameters with respect to the loss.
-        optimizer.step() #updates the model parameters using the computed gradients.
         pbar.set_description(f"Batch {batch_idx} Loss: {loss.item():.4f}")
-    adjust_learning_rate(optimizer) #for stochastic gradient descent
 
-    if (args.enable_logging):
-        logger.log_value('loss', loss.data.item()).step()
+    train_loss /= len(train_loader)  # Compute average training loss
+    adjust_learning_rate(optimizer)  # Adjust learning rate
 
-    try:
-        os.stat('{}{}'.format(args.model_dir,suffix))
-    except:
-        os.makedirs('{}{}'.format(args.model_dir,suffix))
+    # Validation phase
+    model.eval()  # Set to evaluation mode
+    val_loss = 0.0
+    correct = 0
+    total = 0
 
-    if ((epoch+1)%10)==0:
+    with torch.no_grad():  # Disable gradient calculations
+        for images, labels in val_loader:
+            if args.cuda:
+                images, labels = images.cuda(), labels.cuda()
+
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            val_loss += loss.item()
+
+            # Compute accuracy
+            _, predicted = torch.max(outputs, 1)
+            correct += (predicted == labels).sum().item()
+            total += labels.size(0)
+
+    val_loss /= len(val_loader)  # Compute average validation loss
+    val_accuracy = correct / total * 100  # Compute validation accuracy
+
+    # Log losses and accuracy
+    logging.info(f"Epoch {epoch+1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.2f}%")
+    print(f"Epoch {epoch+1}, Train Loss: {train_loss:.4f}, Val Loss: {val_loss:.4f}, Val Acc: {val_accuracy:.2f}%")
+
+    if args.enable_logging:
+        logger.log_value('train_loss', train_loss).step()
+        logger.log_value('val_loss', val_loss).step()
+        logger.log_value('val_acc', val_accuracy).step()
+
+    # Save model checkpoint every 10 epochs
+    os.makedirs(f"{args.model_dir}{suffix}", exist_ok=True)
+    if (epoch + 1) % 10 == 0:
         torch.save({'epoch': epoch, 'state_dict': model.state_dict()},
-               '{}{}/checkpoint_{}.pth'.format(args.model_dir, suffix, epoch+1))
+                   f"{args.model_dir}{suffix}/checkpoint_{epoch+1}.pth")
 
 def test(test_loader, model, epoch, logger, logger_test_name):
     # evaluates the model on a test dataset
@@ -494,7 +538,7 @@ def create_optimizer(model, new_lr):
     return optimizer
 
 
-def main(train_loader, test_loaders, model, logger):
+def main(train_loader, val_loader, test_loaders, model, logger):
     print('\nparsed options:\n{}\n'.format(vars(args)))
 
     optimizer1 = create_optimizer(model, args.lr)
@@ -520,7 +564,7 @@ def main(train_loader, test_loaders, model, logger):
         test(test_loader['dataloader'], model, 0, logger, test_loader['name'])
     for epoch in range(start, end):
         # iterate over test loaders and test results
-        train(train_loader, model, optimizer1, criterion, epoch, logger)
+        train(train_loader,val_loader, model, optimizer1, criterion, epoch, logger)
         if ((epoch+1)%5)==0:
             for test_loader in test_loaders:
                 test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
@@ -548,5 +592,5 @@ if __name__ == '__main__':
     if(args.enable_logging):
         from Loggers import Logger
         logger = Logger(LOG_DIR)
-    train_loader, test_loaders = create_loaders()
-    main(train_loader, test_loaders, model, logger)
+    train_loader, val_loader, test_loaders = create_loaders()
+    main(train_loader, val_loader, test_loaders, model, logger)
