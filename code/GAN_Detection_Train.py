@@ -431,7 +431,9 @@ def performance_metrics(all_labels, all_preds, epoch):
 
     # Save the classification report to a file
     report_file_path = os.path.join(args.model_dir, "classification_report_test.txt")
-    with open(report_file_path, 'w') as f:
+    # Append the results to the file for each epoch
+    with open(report_file_path, 'a') as f:
+        f.write(f"Epoch {epoch + 1}/{args.epochs}\n")
         f.write(f"Classification Report:\n{class_report}\n")
         f.write(f"Confusion Matrix:\n{conf_matrix}\n")
         f.write("\n" + "=" * 50 + "\n")  # Add a separator between epochs for clarity
