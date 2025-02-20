@@ -305,6 +305,7 @@ def create_loaders():
 
 
 def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
+    global train_losses, val_losses
     # Enable logging
     logging.basicConfig(filename='training.log', level=logging.INFO, format='%(message)s')
 
@@ -319,7 +320,7 @@ def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
         if args.cuda:
             image_pair, label = image_pair.cuda(), label.cuda()
 
-        image_pair, label = Variable(image_pair), Variable(label)
+        image_pair, label = Variable(image_pair), Variable(label) # It can be removed
 
         optimizer.zero_grad()  # Clear gradients
         out = model(image_pair)
@@ -332,6 +333,7 @@ def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
         pbar.set_description(f"Batch {batch_idx} Loss: {loss.item():.4f}")
 
     train_loss /= len(train_loader)  # Compute average training loss
+    train_losses.append(train_loss)  # All train losses
     adjust_learning_rate(optimizer)  # Adjust learning rate
 
     # Validation phase
@@ -344,6 +346,7 @@ def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
         for images, labels in val_loader:
             if args.cuda:
                 images, labels = images.cuda(), labels.cuda()
+            images, labels = Variable(images), Variable(labels) # It can be removed
 
             outputs = model(images)
             loss = criterion(outputs, labels)
@@ -355,6 +358,7 @@ def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
             total += labels.size(0)
 
     val_loss /= len(val_loader)  # Compute average validation loss
+    val_losses.append(val_loss)  # All validation losses
     val_accuracy = correct / total * 100  # Compute validation accuracy
 
     # Log losses and accuracy
@@ -512,6 +516,16 @@ def read_test_images():
 
     return images, labels
 
+def plot_losses():
+    plt.figure(figsize=(8, 6))
+    plt.plot(range(1, len(train_losses) + 1), train_losses, label='Train Loss', marker='o')
+    plt.plot(range(1, len(val_losses) + 1), val_losses, label='Validation Loss', marker='o')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+    plt.grid()
+    plt.show()
 
 def adjust_learning_rate(optimizer):
     """Updates the learning rate given the learning rate decay.
@@ -571,6 +585,7 @@ def main(train_loader, val_loader, test_loaders, model, logger):
         if epoch==(end-1):
             for test_loader in test_loaders:
                 test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
+    plot_losses()
         
 if __name__ == '__main__':
     LOG_DIR = args.log_dir
