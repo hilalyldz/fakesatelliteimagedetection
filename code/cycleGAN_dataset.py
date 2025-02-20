@@ -108,9 +108,9 @@ def read_image_file(data_dir, dataset_name, train_flag):
     label_list = []
     #load all possible jpg or png images
     if train_flag:
-        search_str = '{}/real/{}/trainA/*.png'.format(data_dir, dataset_name)
+        search_str = '{}/real/{}/train/*.jpg'.format(data_dir, dataset_name)
     else:
-        search_str = '{}/real/{}/testA/*.png'.format(data_dir, dataset_name)
+        search_str = '{}/real/{}/test/*.jpg'.format(data_dir, dataset_name)
 
     print(f'Search string : {search_str}')
     for filename in glob.glob(search_str):
@@ -121,12 +121,14 @@ def read_image_file(data_dir, dataset_name, train_flag):
         label_list.append(1)
     
     if train_flag:
-        search_str = '{}fake/{}/trainA/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}fake/{}/train/*.jpg'.format(data_dir, dataset_name)
     else:
-        search_str = '{}/fake/{}/testA/*.jpg'.format(data_dir, dataset_name)
+        search_str = '{}/fake/{}/test/*.jpg'.format(data_dir, dataset_name)
 
     for filename in glob.glob(search_str):
-        image = cv2.imread(filename) 
+        image = cv2.imread(filename)
+        if image.shape[0]!=256:
+            image = cv2.resize(image, (256,256))
         image_list.append(image)
         label_list.append(0)
 
