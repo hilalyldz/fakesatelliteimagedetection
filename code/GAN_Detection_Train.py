@@ -568,7 +568,7 @@ def main(train_loader, val_loader, test_loaders, model, logger):
     for epoch in range(start, end):
         # iterate over test loaders and test results
         train(train_loader,val_loader, model, optimizer1, criterion, epoch, logger)
-        if ((epoch+1)%5)==0:
+        if epoch==(end-1):
             for test_loader in test_loaders:
                 test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
         
