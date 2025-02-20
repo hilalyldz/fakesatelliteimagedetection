@@ -47,6 +47,8 @@ from skimage.feature import graycomatrix
 from torch.utils.data import DataLoader, random_split
 import copy
 import torchvision.transforms as transforms
+train_losses = []
+val_losses = []
 
 parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 
@@ -251,11 +253,35 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
             im = im.astype(np.float32)
             im = (im/255 - 0.5)*2
             #img = transform_img(img)
+        fft_images = im
         im = np.transpose(im, (2,0,1))
+        # self.visualize_and_save(index, fft_images)
         return (im, label)
 
     def __len__(self):
         return self.labels.size(0)
+
+    def visualize_and_save(self, index, fft_images, output_path="C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Dataset_Visualization/"):
+        im = self.data[index]
+        label = self.labels[index]
+        # im = (im + 1)/2
+        # im = (im * 255).clamp(0, 255).to(torch.uint8)
+        # im = im.permute(1, 2, 0).cpu().numpy()
+
+        path = os.path.join(output_path, f"image_{index}.png")
+
+        fig, axs = plt.subplots(1, 2, figsize=(12, 4))
+        axs[0].imshow(im)
+        axs[0].set_title(f"Original Image(Label: {label})")
+        axs[0].axis('off')
+
+        axs[1].imshow(fft_images, cmap="inferno")
+        axs[1].set_title("Frequency Spectrum")
+        axs[1].axis('off')
+
+        plt.savefig(path)
+        plt.close(fig)
+
 
 def create_loaders():
 
