@@ -255,7 +255,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
             #img = transform_img(img)
         fft_images = im
         im = np.transpose(im, (2,0,1))
-        # self.visualize_and_save(index, fft_images)
+        #self.visualize_and_save(index, fft_images)
         return (im, label)
 
     def __len__(self):
@@ -275,7 +275,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         axs[0].set_title(f"Original Image(Label: {label})")
         axs[0].axis('off')
 
-        axs[1].imshow(fft_images, cmap="inferno")
+        axs[1].imshow(np.log1p(np.abs(fft_images)), cmap="gray")
         axs[1].set_title("Frequency Spectrum")
         axs[1].axis('off')
 
@@ -435,7 +435,7 @@ def test(test_loader, model, epoch, logger, logger_test_name):
 
     # calculation and saving performance metrics
     performance_metrics(all_labels, all_preds, epoch)
-    display_random_test_samples(image_pair, all_labels, all_preds)
+    #display_random_test_samples(image_pair, all_labels, all_preds)
 
     num_tests = test_loader.dataset.labels.size(0)
     labels = np.vstack(labels).reshape(num_tests)
