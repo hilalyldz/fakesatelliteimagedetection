@@ -1,3 +1,7 @@
 /Useful_Scripts/move_images.py
 /datasets/satellite_test.pt
 /datasets/satellite_train.pt
+/datasets
+/datasets10
+/datasets_original/fake
+/datasets_original/real
