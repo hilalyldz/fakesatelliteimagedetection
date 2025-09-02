@@ -39,6 +39,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 import glob
+import pywt
 
 
 from torchvision import transforms, models
@@ -222,8 +223,15 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
             im = im/255.0
             for i in range(3):
                 img = im[:,:,i]
+                # === FFT Part ===
                 fft_img = np.fft.fft2(img)
-                fft_img = np.log(np.abs(fft_img)+1e-3)
+                fft_shifted = np.fft.fftshift(fft_img)
+                # === HIGH-PASS FILTER ===
+                fft_filtered = self.high_pass_filter(fft_shifted)
+                # === LOG MAGNITUDE ===
+                fft_filtered = np.fft.ifftshift(fft_filtered) # shifting back
+                fft_img = np.log(np.abs(fft_filtered)+1e-3)
+
                 fft_min = np.percentile(fft_img,5)
                 fft_max = np.percentile(fft_img,95)
                 fft_img = (fft_img - fft_min)/(fft_max - fft_min)
@@ -250,11 +258,23 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
                         fft_img[21:203, 21:203] = 0
                     fft_img = np.fft.fftshift(fft_img)
                 im[:,:,i] = fft_img
+        elif args.feature == 'wavelet':
+            im = im.astype(np.float32)
+            im = im / 255.0  # Normalize to [0, 1]
+            wavelet_channels = []
+            for i in range(3):  # R, G, B
+                coeffs2 = pywt.dwt2(im[:, :, i], 'haar')
+                LL, (LH, HL, HH) = coeffs2
+                wavelet_channels.extend([LL, LH, HL, HH])
+
+            resized_channels = [cv2.resize(c, (224, 224), interpolation=cv2.INTER_LINEAR) for c in wavelet_channels]
+            im = np.stack(resized_channels, axis=0).astype(np.float32)
         else:
             im = im.astype(np.float32)
             im = (im/255 - 0.5)*2
             #img = transform_img(img)
         fft_images = im
+        #if args.feature == 'fft':
         im = np.transpose(im, (2,0,1))
         #self.visualize_and_save(index, fft_images)
         return (im, label)
@@ -283,6 +303,24 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         plt.savefig(path)
         plt.close(fig)
 
+    def wavelet_transformation(self, image, wavelet='haar'):
+        img = np.array(image)  # shape: (H, W, 3)
+        channels = []
+        for c in range(3):  # for R, G, B
+            coeffs2 = pywt.dwt2(img[:, :, c], wavelet=wavelet)
+            LL, (LH, HL, HH) = coeffs2
+            channels.extend([LL, LH, HL, HH])
+        arr = np.stack(channels, axis=0)  # shape: (12, H/2, W/2)
+        return torch.tensor(arr, dtype=torch.float32)
+
+    def high_pass_filter(self, fft_shifted):
+        rows, cols = fft_shifted.shape
+        crow, ccol = rows // 2, cols // 2
+        radius = 30  # cutoff radius (tuning is necessary)
+        mask = np.ones((rows, cols), dtype=np.uint8)
+        cv2.circle(mask, (crow, ccol), radius, 0, -1)  # removing low frequency
+        fft_filtered = fft_shifted * mask
+        return fft_filtered
 
 def create_loaders():
 
@@ -688,9 +726,31 @@ if __name__ == '__main__':
 
     pretrain_flag = not args.feature=='comatrix'
     if args.model == 'resnet':
-        model = models.resnet34(pretrained=True)
-        num_ftrs = model.fc.in_features  #Gets the number of input features for the fully connected (fc) layer.
-        model.fc = nn.Linear(num_ftrs, 2)  #Replaces the original fully connected layer with a new one that has 2 output classes. This adapts the model for binary classification.
+        if args.feature == 'wavelet':
+            model = models.resnet34(pretrained=True)
+
+            new_input_channels = 12  # because you use LL, LH, HL, HH for R, G, B
+            original_conv = model.conv1
+            model.conv1 = nn.Conv2d(
+                in_channels=new_input_channels,
+                out_channels=original_conv.out_channels,
+                kernel_size=original_conv.kernel_size,
+                stride=original_conv.stride,
+                padding=original_conv.padding,
+                bias=original_conv.bias is not None
+            )
+
+            # Optionally copy weights from 3-channel model
+            with torch.no_grad():
+                model.conv1.weight[:, :3] = original_conv.weight
+                for i in range(3, new_input_channels):
+                    model.conv1.weight[:, i] = original_conv.weight[:, i % 3]
+
+            model.fc = nn.Linear(model.fc.in_features, 2)
+        else:
+            model = models.resnet34(pretrained=True)
+            num_ftrs = model.fc.in_features  #Gets the number of input features for the fully connected (fc) layer.
+            model.fc = nn.Linear(num_ftrs, 2)  #Replaces the original fully connected layer with a new one that has 2 output classes. This adapts the model for binary classification.
     elif args.model == 'pggan':
         model = pggan_dnet.SimpleDiscriminator(3, label_size=1, mbstat_avg='all',
                 resolution=256, fmap_max=128, fmap_base=2048, sigmoid_at_end=False)

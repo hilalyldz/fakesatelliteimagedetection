@@ -49,8 +49,10 @@ if args.feature == 'image':
             ]
 elif args.feature == 'fft':
     parameter_set = [
-            ' --feature=fft '
+            ' --feature=fft ',
             ]
+elif args.feature == 'wavelet':
+    parameter_set = ['--feature=wavelet ']
 #Compare different frequency band
 #parameter_set = [
 #        ' --feature=fft '
