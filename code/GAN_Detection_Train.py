@@ -47,6 +47,10 @@ from skimage.feature import graycomatrix
 from torch.utils.data import DataLoader, random_split
 import copy
 import torchvision.transforms as transforms
+from pytorch_grad_cam import GradCAM
+from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
+from pytorch_grad_cam.utils.image import show_cam_on_image
+
 train_losses = []
 val_losses = []
 
@@ -133,9 +137,6 @@ suffix = suffix + '_{}'.format(args.model)
 if args.test_set == 'transposed_conv':
     #Use a small set to save the inferring time. Use the best model to test all the subsets in test phase. 
     dataset_names = ['satellite']
-    #dataset_names = ['horse', 'zebra', 'summer', 'winter', 'apple', 'orange',
-    #            'facades', 'cityscapes', 'satellite', 
-    #            'ukiyoe', 'vangogh', 'cezanne', 'monet', 'photo', 'celeba_stargan']  
 
 if args.test_set == 'nn':
     dataset_names = ['horse_nn',  'zebra_nn', 'summer_nn', 'winter_nn', 'apple_nn', 'orange_nn']
@@ -413,6 +414,17 @@ def test(test_loader, model, epoch, logger, logger_test_name):
 
     labels, predicts = [], []
     outputs = []
+
+    # Create CAM directory per epoch
+    if not os.path.exists(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/cam_epoch_{epoch}"):
+        os.makedirs(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/cam_epoch_{epoch}")
+    #Set up Grad Cam for ResNet model
+    device = torch.device("cuda" if args.cuda else "cpu")
+    model = model.to(device)
+    cam = None
+    target_layer = model.layer4[-1]
+    cam = GradCAM(model=model, target_layers=[target_layer])
+
     pbar = tqdm(enumerate(test_loader))
     for batch_idx, (image_pair, label) in pbar:
         if args.cuda:
@@ -432,6 +444,60 @@ def test(test_loader, model, epoch, logger, logger_test_name):
         labels.append(ll)
         predicts.append(pred)
         outputs.append(out)
+
+    # Grad-CAM visualization — only for a few samples
+    if cam is not None: #and batch_idx < 5:  # limit to first 5 batches
+        if args.feature == 'wavelet':
+            for i in range(min(image_pair.size(0), 2)):  # visualize max 2 images per batch
+                input_tensor = image_pair[i].unsqueeze(0)
+                target = [ClassifierOutputTarget(label[i].item())]
+
+                grayscale_cam = cam(input_tensor=input_tensor.to(device), targets=target)
+                grayscale_cam = grayscale_cam[0]
+
+                # Convert image to visualizable format
+                # Assuming you want to show only LL bands (channels 0–2)
+                img_np = image_pair[i, :3, :, :].detach().cpu().numpy()
+                img_np = img_np.transpose(1, 2, 0)
+                img_np = (img_np - img_np.min()) / (img_np.max() - img_np.min() + 1e-8)
+
+                cam_image = show_cam_on_image(img_np, grayscale_cam, use_rgb=True)
+
+                # Save the CAM image
+                cam_path = f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/sample_{batch_idx}_{i}.png"
+                cv2.imwrite(cam_path, cam_image)
+        elif 1:#args.feature == 'fft':
+            for i in range(min(image_pair.size(0), 2)):
+                input_tensor = image_pair[i].unsqueeze(0)
+
+                # Target class (ground truth)
+                target = [ClassifierOutputTarget(label[i].item())]
+
+                # Generate Grad-CAM (still on FFT input if model was trained on FFT)
+                grayscale_cam = cam(input_tensor=input_tensor.to(device), targets=target)[0]
+
+                img_spatial = image_pair[i].detach().cpu().numpy()  # (channels,H,W)
+                img_spatial = img_spatial.transpose(1, 2, 0)  # (H,W,channels)
+                img_spatial = (img_spatial - img_spatial.min()) / (img_spatial.max() - img_spatial.min() + 1e-8)
+
+                # Overlay CAM on spatial image
+                cam_image = show_cam_on_image(img_spatial, grayscale_cam, use_rgb=True)
+                cam_image_uint8 = (cam_image * 255).astype(np.uint8)
+
+                # Save overlay
+                cam_path = f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/spatial_overlay_{batch_idx}_{i}.png"
+                cv2.imwrite(cam_path, cam_image_uint8)
+
+                # Optional: save raw CAM heatmap
+                heatmap_path = f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/spatial_heatmap_{batch_idx}_{i}.png"
+                heatmap_uint8 = (grayscale_cam * 255).astype(np.uint8)
+                cv2.imwrite(heatmap_path, heatmap_uint8)
+
+                # Original image save
+                original_path = f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/original_image_{batch_idx}_{i}.png"
+                original_uint8 = (img_spatial * 255).astype(np.uint8)
+                cv2.imwrite(original_path, original_uint8)
+
 
     # calculation and saving performance metrics
     performance_metrics(all_labels, all_preds, epoch)
