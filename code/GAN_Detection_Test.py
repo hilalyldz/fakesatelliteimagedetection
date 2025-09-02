@@ -35,6 +35,10 @@ from GAN_Detection_Train import GANDataset
 import torch.nn as nn
 from collections import OrderedDict
 import csv
+from sklearn.metrics import classification_report, confusion_matrix
+import logging
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from torchvision import transforms, models
 
@@ -161,6 +165,35 @@ try:
 except:
     os.makedirs('{}/'.format(args.result_dir))
 
+args.class_names = ['fake', 'real']
+
+def performance_metrics(all_labels, all_preds, epoch):
+    # Generate and log classification report
+    class_report = classification_report(all_labels, all_preds, target_names=args.class_names)
+    conf_matrix = confusion_matrix(all_labels, all_preds)
+    logging.info(f"Classification Report:\n{class_report}")
+    print(f"Classification Report:\n{class_report}")
+    print(f"Confusion Matrix:\n{conf_matrix}")
+
+    # Save the classification report to a file
+    report_file_path = os.path.join(args.model_dir, "classification_report_test.txt")
+    # Append the results to the file for each epoch
+    with open(report_file_path, 'a') as f:
+        f.write(f"Epoch {epoch + 1}/{args.epochs}\n")
+        f.write(f"Classification Report:\n{class_report}\n")
+        f.write(f"Confusion Matrix:\n{conf_matrix}\n")
+        f.write("\n" + "=" * 50 + "\n")  # Add a separator between epochs for clarity
+
+    # Visualize the confusion matrix
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
+                xticklabels=args.class_names, yticklabels=args.class_names)
+    plt.xlabel('Predicted Labels')
+    plt.ylabel('True Labels')
+    plt.title('Confusion Matrix')
+    plt.savefig(os.path.join(args.model_dir, "confusion_matrix.png"))
+    plt.close()
+
 def create_loaders():
 
     test_dataset_names = copy.copy(dataset_names)
@@ -181,7 +214,7 @@ def create_loaders():
                      check_cached=args.check_cached,
                      transform=transform),
                         batch_size=args.test_batch_size,
-                        shuffle=False, **kwargs)}
+                        shuffle=True, **kwargs)}
                     for name in test_dataset_names]
 
     return test_loaders
@@ -189,6 +222,9 @@ def create_loaders():
 def test(test_loader, model, epoch, logger_test_name):
     # switch to evaluate mode
     model.eval()
+
+    all_preds = []
+    all_labels = []
 
     labels, predicts = [], []
 
@@ -203,10 +239,18 @@ def test(test_loader, model, epoch, logger_test_name):
 
         out = model(image_pair)
         _, pred = torch.max(out,1)
+
+        # Store predictions and true labels for classification report
+        preds = torch.argmax(out, dim=1)  # Convert logits to class predictions
+        all_preds.extend(preds.cpu().numpy())
+        all_labels.extend(label.cpu().numpy())
+
         ll = label.data.cpu().numpy().reshape(-1, 1)
         pred = pred.data.cpu().numpy().reshape(-1, 1)
         labels.append(ll)
         predicts.append(pred)
+
+    performance_metrics(all_labels, all_preds, epoch)
 
     num_tests = test_loader.dataset.labels.size(0)
     labels = np.vstack(labels).reshape(num_tests)
