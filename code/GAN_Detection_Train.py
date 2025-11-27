@@ -55,136 +55,133 @@ from pytorch_grad_cam.utils.image import show_cam_on_image
 train_losses = []
 val_losses = []
 
-parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
+def get_settings():
+    parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 
-# Training settings
-parser.add_argument('--dataroot', type=str,
-                    default='./datasets/',
-                    help='path to dataset')
-parser.add_argument('--training-set', default= 'horse',
-                    help='The name of the training set. If leave_one_out flag is set, \
-                    it is the leave-out set(use all other sets for training).')
-parser.add_argument('--test-set', default='transposed_conv', type=str,
-                    help='Choose test set from trainsposed_conv, nn, jpeg and resize')
-parser.add_argument('--feature', default='image',
-                    help='Feature used for training, choose from image and fft')
-parser.add_argument('--mode', type=int, default=0, 
-                    help='fft frequency band, 0: full, 1: low, 2: mid, 3: high')
-parser.add_argument('--leave_one_out', action='store_true', default=False,
-                    help='Test leave one out setting, using all other sets for training and test on a leave-out set.')
-parser.add_argument('--jpg_level', type=str, default='90',
-                    help='Test with different jpg compression effiecients, only effective when use jpg for test set.')
-parser.add_argument('--resize_size', type=str, default='200', 
-                    help='Test with different resize sizes, only effective when use resize for test set.')
+    # Training settings
+    parser.add_argument('--dataroot', type=str,
+                        default='./datasets/',
+                        help='path to dataset')
+    parser.add_argument('--training-set', default= 'horse',
+                        help='The name of the training set. If leave_one_out flag is set, \
+                        it is the leave-out set(use all other sets for training).')
+    parser.add_argument('--test-set', default='transposed_conv', type=str,
+                        help='Choose test set from trainsposed_conv, nn, jpeg and resize')
+    parser.add_argument('--feature', default='image',
+                        help='Feature used for training, choose from image and fft')
+    parser.add_argument('--mode', type=int, default=0,
+                        help='fft frequency band, 0: full, 1: low, 2: mid, 3: high')
+    parser.add_argument('--leave_one_out', action='store_true', default=False,
+                        help='Test leave one out setting, using all other sets for training and test on a leave-out set.')
+    parser.add_argument('--jpg_level', type=str, default='90',
+                        help='Test with different jpg compression effiecients, only effective when use jpg for test set.')
+    parser.add_argument('--resize_size', type=str, default='200',
+                        help='Test with different resize sizes, only effective when use resize for test set.')
 
-parser.add_argument('--enable-logging',type=bool, default=False,
-                    help='output to tensorlogger')
-parser.add_argument('--log-dir', default='./log/',
-                    help='folder to output log')
-parser.add_argument('--model-dir', default='./model/',
-                    help='folder to output model checkpoints')
-parser.add_argument('--model', default='resnet',
-                    help='Base classification model')
-parser.add_argument('--num-workers', default= 1,
-                    help='Number of workers to be created')
-parser.add_argument('--pin-memory',type=bool, default= True,
-                    help='')
-parser.add_argument('--resume', default='', type=str,
-                    help='path to latest checkpoint (default: none)')
-parser.add_argument('--start-epoch', default=1, type=int, 
-                    help='manual epoch number (useful on restarts)')
-parser.add_argument('--epochs', type=int, default=10, 
-                    help='number of epochs to train (default: 10)')
-parser.add_argument('--batch-size', type=int, default=64, 
-                    help='input batch size for training (default: 64)')
-parser.add_argument('--test-batch-size', type=int, default=32,
-                    help='input batch size for testing (default: 32)')
-parser.add_argument('--lr', type=float, default=0.01, 
-                    help='learning rate (default: 0.01)')
-parser.add_argument('--lr-decay', default=1e-2, type=float, 
-                    help='learning rate decay ratio (default: 1e-6')
-parser.add_argument('--wd', default=1e-4, type=float,
-                    metavar='W', help='weight decay (default: 1e-4)')
-parser.add_argument('--optimizer', default='sgd', type=str,
-                    metavar='OPT', help='The optimizer to use (default: SGD)')
-parser.add_argument('--data_augment', action='store_true', default=False,
-                    help='Use data augmentation or not')
-parser.add_argument('--check_cached', action='store_true', default=True,
-                    help='Use cached dataset or not')
-parser.add_argument('--seed', type=int, default=-1,
-                    help='random seed (default: -1)')
-parser.add_argument('--interval', type=int, default=5,
-                    help='logging interval, epoch based. (default: 5)')
+    parser.add_argument('--enable-logging',type=bool, default=False,
+                        help='output to tensorlogger')
+    parser.add_argument('--log-dir', default='./log/',
+                        help='folder to output log')
+    parser.add_argument('--model-dir', default='./model/',
+                        help='folder to output model checkpoints')
+    parser.add_argument('--model', default='resnet',
+                        help='Base classification model')
+    parser.add_argument('--num-workers', default= 1,
+                        help='Number of workers to be created')
+    parser.add_argument('--pin-memory',type=bool, default= True,
+                        help='')
+    parser.add_argument('--resume', default='', type=str,
+                        help='path to latest checkpoint (default: none)')
+    parser.add_argument('--start-epoch', default=1, type=int,
+                        help='manual epoch number (useful on restarts)')
+    parser.add_argument('--epochs', type=int, default=10,
+                        help='number of epochs to train (default: 10)')
+    parser.add_argument('--batch-size', type=int, default=64,
+                        help='input batch size for training (default: 64)')
+    parser.add_argument('--test-batch-size', type=int, default=32,
+                        help='input batch size for testing (default: 32)')
+    parser.add_argument('--lr', type=float, default=0.01,
+                        help='learning rate (default: 0.01)')
+    parser.add_argument('--lr-decay', default=1e-2, type=float,
+                        help='learning rate decay ratio (default: 1e-6')
+    parser.add_argument('--wd', default=1e-4, type=float,
+                        metavar='W', help='weight decay (default: 1e-4)')
+    parser.add_argument('--optimizer', default='sgd', type=str,
+                        metavar='OPT', help='The optimizer to use (default: SGD)')
+    parser.add_argument('--data_augment', action='store_true', default=False,
+                        help='Use data augmentation or not')
+    parser.add_argument('--check_cached', action='store_true', default=True,
+                        help='Use cached dataset or not')
+    parser.add_argument('--seed', type=int, default=-1,
+                        help='random seed (default: -1)')
+    parser.add_argument('--interval', type=int, default=5,
+                        help='logging interval, epoch based. (default: 5)')
 
-# Device options
-parser.add_argument('--no-cuda', action='store_true', default=False,
-                    help='disables CUDA training')
-parser.add_argument('--gpu-id', default='0', type=str,
-                    help='id(s) for CUDA_VISIBLE_DEVICES')
+    # Device options
+    parser.add_argument('--no-cuda', action='store_true', default=False,
+                        help='disables CUDA training')
+    parser.add_argument('--gpu-id', default='0', type=str,
+                        help='id(s) for CUDA_VISIBLE_DEVICES')
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-suffix = '{}'.format(args.training_set)
+    suffix = '{}'.format(args.training_set)
 
-if args.data_augment:
-    suffix = suffix + '_da'
-if args.leave_one_out:
-    suffix = suffix + '_oo'
-if args.feature != 'image':
-    suffix = suffix + '_{}_{}'.format(args.feature, args.mode)
+    if args.data_augment:
+        suffix = suffix + '_da'
+    if args.leave_one_out:
+        suffix = suffix + '_oo'
+    if args.feature != 'image':
+        suffix = suffix + '_{}_{}'.format(args.feature, args.mode)
 
-suffix = suffix + '_{}'.format(args.model)
+    suffix = suffix + '_{}'.format(args.model)
 
-if args.test_set == 'transposed_conv':
-    #Use a small set to save the inferring time. Use the best model to test all the subsets in test phase. 
-    dataset_names = ['satellite']
+    if args.test_set == 'transposed_conv':
+        #Use a small set to save the inferring time. Use the best model to test all the subsets in test phase.
+        dataset_names = ['satellite']
 
-if args.test_set == 'nn':
-    dataset_names = ['horse_nn',  'zebra_nn', 'summer_nn', 'winter_nn', 'apple_nn', 'orange_nn']
+    if args.test_set == 'nn':
+        dataset_names = ['satellite']
+    elif args.test_set == 'jpg':
+        dataset_names = ['satellite']
+    elif args.test_set == 'resize':
+        dataset_names = ['satellite']
 
-elif args.test_set == 'jpg':
-    dataset_names = ['horse_jpg_{}'.format(args.jpg_level), 'zebra_jpg_{}'.format(args.jpg_level),
-            'summer_jpg_{}'.format(args.jpg_level), 'winter_jpg_{}'.format(args.jpg_level),
-            'apple_jpg_{}'.format(args.jpg_level), 'orange_jpg_{}'.format(args.jpg_level)]  
+    # set the device to use by setting CUDA_VISIBLE_DEVICES env variable in
+    # order to prevent any memory allocation on unused GPUs
+    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id
 
-elif args.test_set == 'resize':
-    dataset_names = ['horse_resize_{}'.format(args.resize_size), 'zebra_resize_{}'.format(args.resize_size),
-            'summer_resize_{}'.format(args.resize_size), 'winter_resize_{}'.format(args.resize_size),
-            'apple_resize_{}'.format(args.resize_size), 'orange_resize_{}'.format(args.resize_size)]  
+    args.cuda = not args.no_cuda and torch.cuda.is_available()
 
-# set the device to use by setting CUDA_VISIBLE_DEVICES env variable in
-# order to prevent any memory allocation on unused GPUs
-os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu_id
+    if args.cuda:
+        cudnn.benchmark = True
+        # set random seeds
+        if args.seed>-1:
+            torch.cuda.manual_seed_all(args.seed)
 
-args.cuda = not args.no_cuda and torch.cuda.is_available()
-
-if args.cuda:
-    cudnn.benchmark = True
     # set random seeds
     if args.seed>-1:
-        torch.cuda.manual_seed_all(args.seed)
+        torch.manual_seed(args.seed)
+        np.random.seed(args.seed)
 
-# set random seeds
-if args.seed>-1:
-    torch.manual_seed(args.seed)
-    np.random.seed(args.seed)
+    # create loggin directory
+    if not os.path.exists(args.log_dir):
+        os.makedirs(args.log_dir)
 
-# create loggin directory
-if not os.path.exists(args.log_dir):
-    os.makedirs(args.log_dir)
-
-args.class_names = ['fake', 'real']
+    args.class_names = ['fake', 'real']
+    return args, suffix, dataset_names
 
 
 class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
     """
     GANDataset to read images.  
     """
-    def __init__(self, train=True, transform=None, batch_size = None, *arg, **kw):
+    def __init__(self, train=True, transform=None, batch_size = None, args=None, *arg, **kw):
         super(GANDataset, self).__init__(train=train, *arg, **kw)
         self.transform = transform
         self.train = train
         self.batch_size = batch_size
+        self.args = args
     
     def __getitem__(self, index):
         def transform_img(img):
@@ -212,70 +209,23 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
                     im = deepcopy(img.numpy())
         #centre crop for test
         else:
-            if args.model == 'resnet' or args.model == 'densenet' or args.model == 'googlenet':
+            if self.args.model == 'resnet' or self.args.model == 'densenet' or self.args.model == 'googlenet':
                 im = deepcopy(img.numpy()[16:240,16:240,:])
             elif args.model == 'pggan':
                 im = deepcopy(img.numpy())
 
         #use spectrum
-        if args.feature == 'fft':
-            im = im.astype(np.float32)
-            im = im/255.0
-            for i in range(3):
-                img = im[:,:,i]
-                # === FFT Part ===
-                fft_img = np.fft.fft2(img)
-                fft_shifted = np.fft.fftshift(fft_img)
-                # === HIGH-PASS FILTER ===
-                fft_filtered = self.high_pass_filter(fft_shifted)
-                # === LOG MAGNITUDE ===
-                fft_filtered = np.fft.ifftshift(fft_filtered) # shifting back
-                fft_img = np.log(np.abs(fft_filtered)+1e-3)
-
-                fft_min = np.percentile(fft_img,5)
-                fft_max = np.percentile(fft_img,95)
-                fft_img = (fft_img - fft_min)/(fft_max - fft_min)
-                fft_img = (fft_img-0.5)*2
-                fft_img[fft_img<-1] = -1
-                fft_img[fft_img>1] = 1
-                #set mid and high freq to 0
-                if args.mode>0:
-                    fft_img = np.fft.fftshift(fft_img)
-                    if args.mode == 1:
-                        fft_img[:57, :] = 0
-                        fft_img[:, :57] = 0
-                        fft_img[177:, :] = 0
-                        fft_img[:, 177:] = 0
-                    #set low and high freq to 0
-                    elif args.mode == 2:
-                        fft_img[:21, :] = 0
-                        fft_img[:, :21] = 0
-                        fft_img[203:, :] = 0
-                        fft_img[:, 203:] = 0
-                        fft_img[57:177, 57:177] = 0
-                    #set low and mid freq to 0
-                    elif args.mode == 3:
-                        fft_img[21:203, 21:203] = 0
-                    fft_img = np.fft.fftshift(fft_img)
-                im[:,:,i] = fft_img
-        elif args.feature == 'wavelet':
-            im = im.astype(np.float32)
-            im = im / 255.0  # Normalize to [0, 1]
-            wavelet_channels = []
-            for i in range(3):  # R, G, B
-                coeffs2 = pywt.dwt2(im[:, :, i], 'haar')
-                LL, (LH, HL, HH) = coeffs2
-                wavelet_channels.extend([LL, LH, HL, HH])
-
-            resized_channels = [cv2.resize(c, (224, 224), interpolation=cv2.INTER_LINEAR) for c in wavelet_channels]
-            im = np.stack(resized_channels, axis=0).astype(np.float32)
+        if self.args.feature == 'fft':
+            im = self.fast_fourier_transformation(im)
+        elif self.args.feature == 'wavelet':
+            im = self.wavelet_transformation(im)
         else:
             im = im.astype(np.float32)
             im = (im/255 - 0.5)*2
             #img = transform_img(img)
         fft_images = im
-        #if args.feature == 'fft':
-        im = np.transpose(im, (2,0,1))
+        if self.args.feature != 'wavelet':
+            im = np.transpose(im, (2,0,1))
         #self.visualize_and_save(index, fft_images)
         return (im, label)
 
@@ -285,10 +235,6 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
     def visualize_and_save(self, index, fft_images, output_path="C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Dataset_Visualization/"):
         im = self.data[index]
         label = self.labels[index]
-        # im = (im + 1)/2
-        # im = (im * 255).clamp(0, 255).to(torch.uint8)
-        # im = im.permute(1, 2, 0).cpu().numpy()
-
         path = os.path.join(output_path, f"image_{index}.png")
 
         fig, axs = plt.subplots(1, 2, figsize=(12, 4))
@@ -303,15 +249,60 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         plt.savefig(path)
         plt.close(fig)
 
-    def wavelet_transformation(self, image, wavelet='haar'):
-        img = np.array(image)  # shape: (H, W, 3)
-        channels = []
-        for c in range(3):  # for R, G, B
-            coeffs2 = pywt.dwt2(img[:, :, c], wavelet=wavelet)
+    def fast_fourier_transformation(self, im):
+        im = im.astype(np.float32)
+        im = im / 255.0
+        for i in range(3):
+            img = im[:, :, i]
+            # === FFT Part ===
+            fft_img = np.fft.fft2(img)
+            fft_shifted = np.fft.fftshift(fft_img)
+            # === HIGH-PASS FILTER ===
+            fft_filtered = self.high_pass_filter(fft_shifted)
+            # === LOG MAGNITUDE ===
+            fft_filtered = np.fft.ifftshift(fft_filtered)  # shifting back
+            fft_img = np.log(np.abs(fft_filtered) + 1e-3)
+
+            fft_min = np.percentile(fft_img, 5)
+            fft_max = np.percentile(fft_img, 95)
+            fft_img = (fft_img - fft_min) / (fft_max - fft_min)
+            fft_img = (fft_img - 0.5) * 2
+            fft_img[fft_img < -1] = -1
+            fft_img[fft_img > 1] = 1
+            # set mid and high freq to 0
+            if self.args.mode > 0:
+                fft_img = np.fft.fftshift(fft_img)
+                if self.args.mode == 1:
+                    fft_img[:57, :] = 0
+                    fft_img[:, :57] = 0
+                    fft_img[177:, :] = 0
+                    fft_img[:, 177:] = 0
+                # set low and high freq to 0
+                elif self.args.mode == 2:
+                    fft_img[:21, :] = 0
+                    fft_img[:, :21] = 0
+                    fft_img[203:, :] = 0
+                    fft_img[:, 203:] = 0
+                    fft_img[57:177, 57:177] = 0
+                # set low and mid freq to 0
+                elif self.args.mode == 3:
+                    fft_img[21:203, 21:203] = 0
+                fft_img = np.fft.fftshift(fft_img)
+            im[:, :, i] = fft_img
+            return im
+
+    def wavelet_transformation(self, im):
+        im = im.astype(np.float32)
+        im = im / 255.0  # Normalize to [0, 1]
+        wavelet_channels = []
+        for i in range(3):  # R, G, B
+            coeffs2 = pywt.dwt2(im[:, :, i], 'haar')
             LL, (LH, HL, HH) = coeffs2
-            channels.extend([LL, LH, HL, HH])
-        arr = np.stack(channels, axis=0)  # shape: (12, H/2, W/2)
-        return torch.tensor(arr, dtype=torch.float32)
+            wavelet_channels.extend([LL, LH, HL, HH])
+
+        resized_channels = [cv2.resize(c, (224, 224), interpolation=cv2.INTER_LINEAR) for c in wavelet_channels]
+        im = np.stack(resized_channels, axis=0).astype(np.float32)
+        return im
 
     def high_pass_filter(self, fft_shifted):
         rows, cols = fft_shifted.shape
@@ -718,6 +709,7 @@ def main(train_loader, val_loader, test_loaders, model, logger):
     plot_losses()
         
 if __name__ == '__main__':
+    args, suffix, dataset_names = get_settings()
     LOG_DIR = args.log_dir
     if not os.path.isdir(LOG_DIR):
         os.makedirs(LOG_DIR)
@@ -728,7 +720,6 @@ if __name__ == '__main__':
     if args.model == 'resnet':
         if args.feature == 'wavelet':
             model = models.resnet34(pretrained=True)
-
             new_input_channels = 12  # because you use LL, LH, HL, HH for R, G, B
             original_conv = model.conv1
             model.conv1 = nn.Conv2d(
@@ -739,7 +730,6 @@ if __name__ == '__main__':
                 padding=original_conv.padding,
                 bias=original_conv.bias is not None
             )
-
             # Optionally copy weights from 3-channel model
             with torch.no_grad():
                 model.conv1.weight[:, :3] = original_conv.weight

@@ -18,11 +18,7 @@
 
 #! /usr/bin/env python2
 
-import numpy as np
-import scipy.io as sio
 import time
-import os
-import sys
 import subprocess
 import shlex
 import argparse
@@ -66,17 +62,8 @@ else:
 
 
 number_gpu = len(gpu_set)
-
-if args.dataset == 'CycleGAN':
-    datasets = ['satellite']
-elif args.dataset == 'AutoGAN':
-    datasets = ['horse_auto', 'zebra_auto', 'summer_auto', 'winter_auto', 'apple_auto', 'orange_auto', 'facades_auto', 'cityscapes_auto', 'satellite_auto', 'ukiyoe_auto', 'vangogh_auto', 'cezanne_auto', 'monet_auto', 'photo_auto']
-else:
-    print('Not a valid dataset!')
-    exit(-1)
-
+datasets = ['satellite']
 process_set = []
-
 index = 0
 for idx, parameter in enumerate(parameter_set):
     for dataset in datasets:

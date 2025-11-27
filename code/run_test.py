@@ -74,14 +74,13 @@ else:
 #            'satellite --leave_one_out ', 'facades --leave_one_out ', 
 #            'fold6 --leave_one_out ', 'fold7 --leave_one_out ',
 #            'fold8 --leave_one_out ', 'fold9 --leave_one_out ']
-
 process_set = []
 
 for dataset in datasets:
     for idx, parameter in enumerate(parameter_set):
         print('Test Parameter: {}'.format(parameter))
         command = 'python ./code/GAN_Detection_Test.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment \
-                --batch-size=16 --test-batch-size=16 --epochs 10 {}  --gpu-id {} --model-dir ./model_resnet/ '\
+                --batch-size=16 --test-batch-size=16 --epochs 20 {}  --gpu-id {} --model-dir ./model_resnet/ '\
                 .format(dataset, parameter, gpu_set[idx%number_gpu]) 
         print(command)
         p = subprocess.Popen(shlex.split(command))

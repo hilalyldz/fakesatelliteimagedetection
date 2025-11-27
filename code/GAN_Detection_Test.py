@@ -212,7 +212,7 @@ def create_loaders():
                      root=args.dataroot,
                      name=name,
                      check_cached=args.check_cached,
-                     transform=transform),
+                     transform=transform, args=args),
                         batch_size=args.test_batch_size,
                         shuffle=True, **kwargs)}
                     for name in test_dataset_names]
