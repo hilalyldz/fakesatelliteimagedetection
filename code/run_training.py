@@ -29,7 +29,7 @@ parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 # Parse command line
 ####################################################################
 parser.add_argument('--dataset', type=str, default='CycleGAN', help='Training dataset select from: CycleGAN and AutoGAN')
-parser.add_argument('--feature', default='image', help='Feature used for training, choose from image and fft')
+parser.add_argument('--feature', default='fft', help='Feature used for training, choose from image and fft')
 parser.add_argument('--gpu-id', default='0', help='Feature used for training, choose from image and fft')
 
 args = parser.parse_args()
