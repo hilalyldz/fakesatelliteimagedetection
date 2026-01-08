@@ -332,7 +332,8 @@ def create_loaders():
         name=args.training_set,
         check_cached=args.check_cached,
         leave_one_out=args.leave_one_out,
-        transform=transform
+        transform=transform,
+        args=args
     )
 
     # Split into train (80%) and validation (20%)
@@ -352,7 +353,8 @@ def create_loaders():
                                     root=args.dataroot,
                                     name=name,
                                     check_cached=args.check_cached,
-                                    transform=transform),
+                                    transform=transform,
+                                    args=args),
                          batch_size=args.test_batch_size,
                          shuffle=False, **kwargs)}
                     for name in test_dataset_names]
@@ -757,10 +759,8 @@ def read_test_images():
 
     # Define the search patterns for real and fake images
     search_patterns = [
-        (f'{data_dir}/real/{dataset_name}/testA/*.png', 1),
-        (f'{data_dir}/fake/{dataset_name}/testA/*.jpg', 0),
-        (f'{data_dir}/real/{dataset_name}/testB/*.png', 1),
-        (f'{data_dir}/fake/{dataset_name}/testB/*.jpg', 0)
+        (f'{data_dir}/real/{dataset_name}/test/*.jpg', 1),
+        (f'{data_dir}/fake/{dataset_name}/test/*.jpg', 0)
     ]
 
     for search_str, label in search_patterns:
