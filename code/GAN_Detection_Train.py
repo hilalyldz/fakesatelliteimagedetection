@@ -359,6 +359,58 @@ def create_loaders():
 
     return train_loader, val_loader, test_loaders
 
+def fft_band_masks(h, w):
+    crow, ccol = h // 2, w // 2
+    Y, X = np.ogrid[:h, :w]
+    dist = np.sqrt((Y - crow) ** 2 + (X - ccol) ** 2)
+
+    low = dist <= 30
+    mid = (dist > 30) & (dist <= 80)
+    high = dist > 80
+
+    return low, mid, high
+
+def band_contribution(cam):
+    h, w = cam.shape
+    low, mid, high = fft_band_masks(h, w)
+
+    scores = {
+        "LOW": cam[low].mean(),
+        "MID": cam[mid].mean(),
+        "HIGH": cam[high].mean()
+    }
+
+    dominant_band = max(scores, key=scores.get)
+    return scores, dominant_band
+
+def fft_complex_rgb(im):
+    """
+    im: spatial RGB image in [0,1], shape (H,W,3)
+    returns: list of complex FFTs (one per channel)
+    """
+    fft_channels = []
+    for c in range(3):
+        fft = np.fft.fftshift(np.fft.fft2(im[:, :, c]))
+        fft_channels.append(fft)
+    return fft_channels
+
+def spatial_backprojection(fft_channels, cam):
+    """
+    fft_channels: list of complex FFTs
+    cam: Grad-CAM map in frequency domain (H,W), normalized [0,1]
+    returns: spatial artifact map (H,W) in [0,1]
+    """
+    spatial_maps = []
+
+    for fft in fft_channels:
+        weighted_fft = fft * cam
+        img_back = np.fft.ifft2(np.fft.ifftshift(weighted_fft))
+        spatial_maps.append(np.abs(img_back))
+
+    spatial_map = np.mean(spatial_maps, axis=0)
+    spatial_map = (spatial_map - spatial_map.min()) / \
+                  (spatial_map.max() - spatial_map.min() + 1e-8)
+    return spatial_map
 
 def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
     global train_losses, val_losses
@@ -444,10 +496,15 @@ def test(test_loader, model, epoch, logger, logger_test_name):
     labels, predicts = [], []
     outputs = []
 
+    cam_cache = []
+    MAX_CAM_SAMPLES = 6
+    global_idx = 0
+
     # Create CAM directory per epoch
-    if not os.path.exists(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/cam_epoch_{epoch}"):
-        os.makedirs(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/cam_epoch_{epoch}")
-    #Set up Grad Cam for ResNet model
+    if not os.path.exists(
+            f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability/cam_epoch_{epoch}"):
+        os.makedirs(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability/cam_epoch_{epoch}")
+    # Set up Grad Cam for ResNet model
     device = torch.device("cuda" if args.cuda else "cpu")
     model = model.to(device)
     cam = None
@@ -474,7 +531,98 @@ def test(test_loader, model, epoch, logger, logger_test_name):
         predicts.append(pred)
         outputs.append(out)
 
+        # Cached data for Grad-CAM
+        for i in range(image_pair.size(0)):
+            if len(cam_cache) < MAX_CAM_SAMPLES:
+                cam_cache.append({
+                    "tensor": image_pair[i].detach().cpu(),
+                    "gt": label[i].item(),  # ground truth
+                    "pred": pred[i].item(),  # model prediction
+                    "index": global_idx
+                })
+            global_idx += 1
+
+    band_stats = {
+        "real": {"LOW": [], "MID": [], "HIGH": []},
+        "fake": {"LOW": [], "MID": [], "HIGH": []}
+    }
+    spatial_images, _ = read_test_images()
     # Grad-CAM visualization — only for a few samples
+    # === FFT Grad-CAM (FAKE class) ===
+    for k, sample in enumerate(cam_cache):
+        gt_label = args.class_names[sample["gt"]]  # REAL / FAKE
+        pred_label = args.class_names[sample["pred"]]  # REAL / FAKE
+        input_tensor = sample["tensor"].unsqueeze(0).to(device)
+
+        # 0 = FAKE, 1 = REAL (according to your class order)
+        target = [ClassifierOutputTarget(0)]
+        cam_class = "FAKE_CAM"
+
+        grayscale_cam = cam(
+            input_tensor=input_tensor,
+            targets=target
+        )[0]
+
+        # Normalize CAM
+        cam_norm = (grayscale_cam - grayscale_cam.min()) / \
+                   (grayscale_cam.max() - grayscale_cam.min() + 1e-8)
+
+        # Band analysis
+        scores, dominant_band = band_contribution(cam_norm)
+        for band, score in scores.items():
+            band_stats[gt_label][band].append(score)
+
+        print(f"[GradCAM] Sample-{k}")
+        print(f"  GT   : {gt_label}")
+        print(f"  Pred : {pred_label}")
+        print(f"  Band scores: {scores}")
+        print(f"  FAKE decision dominated by: {dominant_band}")
+        print("\n=== Average FAKE Grad-CAM Band Contribution ===")
+        for class_name in band_stats:  # 'real' / 'fake'
+            print(f"\nClass: {class_name.upper()}")
+            for band in band_stats[class_name]:  # 'LOW', 'MID', 'HIGH'
+                values = band_stats[class_name][band]
+                avg = np.mean(values) if values else 0.0
+                print(f"  {band}: {avg:.4f}")
+
+        # ----- Load corresponding spatial image -----
+        spatial_img = spatial_images[sample["index"]]
+        spatial_img = cv2.cvtColor(spatial_img, cv2.COLOR_BGR2RGB)
+        spatial_img = cv2.resize(spatial_img, (224, 224))
+        spatial_img = spatial_img.astype(np.float32) / 255.0
+
+        # ----- FFT → spatial backprojection -----
+        fft_channels = fft_complex_rgb(spatial_img)
+        spatial_map = spatial_backprojection(fft_channels, cam_norm)
+
+        # ----- Overlay spatial artifact map -----
+        overlay = show_cam_on_image(
+            spatial_img,
+            spatial_map,
+            use_rgb=True
+        )
+
+        # ----- Save results -----
+        base_path = (
+            f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/"
+            f"Spectral_Explainability/cam_epoch_{epoch}/"
+            f"GT-{gt_label}_PRED-{pred_label}_IDX-{sample['index']}"
+        )
+
+        cv2.imwrite(f"{base_path}_fft_cam.png", (cam_norm * 255).astype(np.uint8))
+        cv2.imwrite(f"{base_path}_spatial_projection.png", (overlay * 255).astype(np.uint8))
+
+        #First version of gradcam
+       # # Save frequency CAM
+       # cam_uint8 = (cam_norm * 255).astype(np.uint8)
+       # save_path = (
+       #     f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/"
+       #     f"Cam_Results/cam_epoch_{epoch}/"
+       #     f"fft_cam_{batch_idx}_{i}_{dominant_band}.png"
+       # )
+       # cv2.imwrite(save_path, cam_uint8)
+
+    '''
     if cam is not None: #and batch_idx < 5:  # limit to first 5 batches
         if args.feature == 'wavelet':
             for i in range(min(image_pair.size(0), 2)):  # visualize max 2 images per batch
@@ -526,7 +674,7 @@ def test(test_loader, model, epoch, logger, logger_test_name):
                 original_path = f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Cam_Results/original_image_{batch_idx}_{i}.png"
                 original_uint8 = (img_spatial * 255).astype(np.uint8)
                 cv2.imwrite(original_path, original_uint8)
-
+    '''
 
     # calculation and saving performance metrics
     performance_metrics(all_labels, all_preds, epoch)
