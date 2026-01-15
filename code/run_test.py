@@ -63,7 +63,7 @@ number_gpu = len(gpu_set)
 
 # Create timestamped log directory
 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-log_dir = f"./logs/run_test_{timestamp}/"
+log_dir = f"./logs_test/run_test_{timestamp}/"
 os.makedirs(log_dir, exist_ok=True)
 
 if args.dataset == 'CycleGAN':

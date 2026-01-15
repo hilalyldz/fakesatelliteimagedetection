@@ -191,7 +191,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         
         img = self.data[index]
         label = self.labels[index]
-
+        self.args.model = 'resnet'
         if self.train:
             #data augmentation for training
             if args.data_augment:
@@ -314,7 +314,6 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         return fft_filtered
 
 def create_loaders():
-
     test_dataset_names = copy.copy(dataset_names)
 
     kwargs = {'num_workers': args.num_workers, 'pin_memory': args.pin_memory} if args.cuda else {}
