@@ -234,7 +234,7 @@ def read_test_images():
     """
     image_list = []
     label_list = []
-    data_dir = args.dataroot
+    data_dir = r"/dss/dsshome1/09/di97zeq/Desktop/Dataset"
     dataset_name = 'satellite'
 
     # Define the search patterns for real and fake images
@@ -326,7 +326,7 @@ def test(test_loader, model, epoch, logger_test_name):
 
     labels, predicts = [], []
     outputs = []
-
+    '''
     cam_cache = []
     MAX_CAM_SAMPLES = 6
     global_idx = 0
@@ -454,7 +454,7 @@ def test(test_loader, model, epoch, logger_test_name):
         #    f"fft_cam_{batch_idx}_{i}_{dominant_band}.png"
         #)
         #cv2.imwrite(save_path, cam_uint8)
-
+    '''
     performance_metrics(all_labels, all_preds, epoch)
 
     num_tests = test_loader.dataset.labels.size(0)
@@ -536,7 +536,7 @@ if __name__ == '__main__':
         model.classifier = nn.Linear(num_ftrs, 2)
 
     print('{}{}/checkpoint_{}.pth'.format(args.model_dir,suffix,args.epochs))
-    load_model = torch.load('{}{}/checkpoint_{}.pth'.format(args.model_dir,suffix,args.epochs))
+    load_model = torch.load('{}{}/checkpoint_{}.pth'.format(args.model_dir,suffix,args.epochs), map_location=torch.device('cpu'))
     model.load_state_dict(load_model['state_dict'])
 
     test_loaders = create_loaders()
