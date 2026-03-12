@@ -33,8 +33,8 @@ import cv2
 
 class cycleGAN_dataset(data.Dataset):
     def __init__(self, root, name, train=True, leave_one_out = False, transform=None, check_cached=False):
-        self.image_dir = r"./datasets/"
-        self.root = os.path.expanduser(root)
+        self.image_dir = r"/dss/dsshome1/09/di97zeq/Desktop/FFT_ResNet/CMF_Data/"
+        self.root = r"/dss/dsshome1/09/di97zeq/Desktop/FFT_ResNet/CMF_Data/"
         self.name = name
         self.data_dir = os.path.join(self.image_dir, name)
 
@@ -99,7 +99,7 @@ class cycleGAN_dataset(data.Dataset):
         )
 
         with open(data_file, 'wb') as f:
-            torch.save(dataset, f)
+            torch.save(dataset, f, pickle_protocol=5)
 
 def read_image_file(data_dir, dataset_name, train_flag):
     """Return a Tensor containing the patches
