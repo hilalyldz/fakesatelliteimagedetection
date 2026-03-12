@@ -559,6 +559,15 @@ def test(test_loader, model, epoch, logger, logger_test_name):
                     "pred": pred[i].item(),  # model prediction
                     "index": global_idx
                 })
+            else:
+                j =random.randint(0, global_idx)
+                if j < MAX_CAM_SAMPLES:
+                    cam_cache = {
+                    "tensor": image_pair[i].detach().cpu(),
+                    "gt": label[i].item(),  # ground truth
+                    "pred": pred[i].item(),  # model prediction
+                    "index": global_idx
+                }
             global_idx += 1
 
     band_stats = {
