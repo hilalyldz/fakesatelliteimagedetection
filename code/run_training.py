@@ -68,7 +68,7 @@ index = 0
 for idx, parameter in enumerate(parameter_set):
     for dataset in datasets:
         print('Test Parameter: {}'.format(parameter))
-        command = 'python ./code/GAN_Detection_Train.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment\
+        command = 'python ./GAN_Detection_Train.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment\
                 --batch-size=16 --test-batch-size=16 {} --gpu-id {} --model-dir ./model_resnet/  --log-dir ./resnet_log/ --enable-logging=False --epochs 20 '\
                 .format(dataset, parameter, gpu_set[index%number_gpu])# 
     

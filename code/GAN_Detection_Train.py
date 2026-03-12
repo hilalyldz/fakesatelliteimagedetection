@@ -60,7 +60,7 @@ def get_settings():
 
     # Training settings
     parser.add_argument('--dataroot', type=str,
-                        default='./datasets/',
+                        default='/dss/dsshome1/09/di97zeq/Desktop/Dataset/',
                         help='path to dataset')
     parser.add_argument('--training-set', default= 'horse',
                         help='The name of the training set. If leave_one_out flag is set, \
@@ -289,7 +289,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
                     fft_img[21:203, 21:203] = 0
                 fft_img = np.fft.fftshift(fft_img)
             im[:, :, i] = fft_img
-            return im
+        return im
 
     def wavelet_transformation(self, im):
         im = im.astype(np.float32)
@@ -302,6 +302,11 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
 
         resized_channels = [cv2.resize(c, (224, 224), interpolation=cv2.INTER_LINEAR) for c in wavelet_channels]
         im = np.stack(resized_channels, axis=0).astype(np.float32)
+        # Normalize to [-1,1]
+        im_min = im.min()
+        im_max = im.max()
+        im = (im - im_min) / (im_max - im_min + 1e-8)
+        im = (im - 0.5) * 2
         return im
 
     def high_pass_filter(self, fft_shifted):
@@ -319,10 +324,13 @@ def create_loaders():
 
     kwargs = {'num_workers': args.num_workers, 'pin_memory': args.pin_memory} if args.cuda else {}
 
-    transform = transforms.Compose([
+    if args.feature == 'wavelet':
+        transform = None
+    else:
+        transform = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-            ])
+            transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+    ])
 
     # Load full training dataset
     full_train_dataset = GANDataset(
@@ -483,8 +491,17 @@ def train(train_loader, val_loader, model, optimizer, criterion, epoch, logger):
     # Save model checkpoint every 10 epochs
     os.makedirs(f"{args.model_dir}{suffix}", exist_ok=True)
     if (epoch + 1) % 10 == 0:
-        torch.save({'epoch': epoch, 'state_dict': model.state_dict()},
-                   f"{args.model_dir}{suffix}/checkpoint_{epoch+1}.pth")
+        cpu_state_dict = {k: v.cpu() for k, v in model.state_dict().items()}
+
+        torch.save(
+            {
+                'epoch': epoch,
+                'state_dict': cpu_state_dict
+            },
+            f"{args.model_dir}{suffix}/checkpoint_{epoch+1}.pth"
+        )
+        #torch.save({'epoch': epoch, 'state_dict': model.state_dict()},
+        #           f"{args.model_dir}{suffix}/checkpoint_{epoch+1}.pth")
 
 def test(test_loader, model, epoch, logger, logger_test_name):
     # evaluates the model on a test dataset
@@ -704,15 +721,16 @@ def performance_metrics(all_labels, all_preds, epoch):
     print(f"Classification Report:\n{class_report}")
     print(f"Confusion Matrix:\n{conf_matrix}")
 
+    '''
     # Save the classification report to a file
-    report_file_path = os.path.join(args.model_dir, "classification_report_test.txt")
+    report_file_path = os.path.join('/dss/dsshome1/09/di97zeq/Desktop/FFT_ResNet/fakesatelliteimagedetection/code/resnet_log/', "classification_report_test.txt")
     # Append the results to the file for each epoch
     with open(report_file_path, 'a') as f:
         f.write(f"Epoch {epoch + 1}/{args.epochs}\n")
         f.write(f"Classification Report:\n{class_report}\n")
         f.write(f"Confusion Matrix:\n{conf_matrix}\n")
         f.write("\n" + "=" * 50 + "\n")  # Add a separator between epochs for clarity
-
+    
     # Visualize the confusion matrix
     plt.figure(figsize=(8, 6))
     sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues',
@@ -722,6 +740,7 @@ def performance_metrics(all_labels, all_preds, epoch):
     plt.title('Confusion Matrix')
     plt.savefig(os.path.join(args.model_dir, "confusion_matrix.png"))
     plt.close()
+    '''
 
 def display_random_test_samples(images, labels, preds):
     #image, labels = read_image_file(args.data_dir, args.dataset_name, 0)
@@ -754,7 +773,7 @@ def read_test_images():
     """
     image_list = []
     label_list = []
-    data_dir = args.dataroot
+    data_dir = r"/dss/dsshome1/09/di97zeq/Desktop/Dataset"
     dataset_name = 'satellite'
 
     # Define the search patterns for real and fake images
@@ -785,16 +804,21 @@ def read_test_images():
 
     return images, labels
 
-def plot_losses():
+def plot_losses(save_path="loss_curve.png"):
     plt.figure(figsize=(8, 6))
-    plt.plot(range(1, len(train_losses) + 1), train_losses, label='Train Loss', marker='o')
-    plt.plot(range(1, len(val_losses) + 1), val_losses, label='Validation Loss', marker='o')
+    plt.plot(range(1, len(train_losses) + 1), train_losses,
+             label='Train Loss', marker='o')
+    plt.plot(range(1, len(val_losses) + 1), val_losses,
+             label='Validation Loss', marker='o')
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.title('Training and Validation Loss')
     plt.legend()
     plt.grid()
-    plt.show()
+
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.close()   # <-- important: prevents showing / memory leak
+
 
 def adjust_learning_rate(optimizer):
     """Updates the learning rate given the learning rate decay.
@@ -827,11 +851,15 @@ def create_optimizer(model, new_lr):
 def main(train_loader, val_loader, test_loaders, model, logger):
     print('\nparsed options:\n{}\n'.format(vars(args)))
 
+    # Set device
+    device = torch.device("cuda" if args.cuda else "cpu")
+    model = model.to(device)
+
     optimizer1 = create_optimizer(model, args.lr)
     criterion = nn.CrossEntropyLoss()
-    if args.cuda:
-        model.cuda()
-        criterion.cuda()
+    #if args.cuda:
+    #    model.cuda()
+    #    criterion.cuda()
 
     # optionally resume from a checkpoint
     if args.resume:
@@ -846,14 +874,16 @@ def main(train_loader, val_loader, test_loaders, model, logger):
             
     start = args.start_epoch
     end = start + args.epochs
-    for test_loader in test_loaders:
-        test(test_loader['dataloader'], model, 0, logger, test_loader['name'])
+    #for test_loader in test_loaders:
+    #    test(test_loader['dataloader'], model, 0, logger, test_loader['name'])
     for epoch in range(start, end):
         # iterate over test loaders and test results
         train(train_loader,val_loader, model, optimizer1, criterion, epoch, logger)
-        if epoch==(end-1):
-            for test_loader in test_loaders:
-                test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
+        #if epoch==(end-1):
+        #    for test_loader in test_loaders:
+        #        test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
+    for test_loader in test_loaders:
+        test(test_loader['dataloader'], model, end-1, logger, test_loader['name'])
     plot_losses()
         
 if __name__ == '__main__':
@@ -867,7 +897,7 @@ if __name__ == '__main__':
     pretrain_flag = not args.feature=='comatrix'
     if args.model == 'resnet':
         if args.feature == 'wavelet':
-            model = models.resnet34(pretrained=True)
+            model = models.resnet34(pretrained=False)
             new_input_channels = 12  # because you use LL, LH, HL, HH for R, G, B
             original_conv = model.conv1
             model.conv1 = nn.Conv2d(

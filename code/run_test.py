@@ -100,7 +100,7 @@ def run_command(command, log_file_path):
 for dataset in datasets:
     for idx, parameter in enumerate(parameter_set):
         print('Test Parameter: {}'.format(parameter))
-        command = 'python ./code/GAN_Detection_Test.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment \
+        command = 'python ./GAN_Detection_Test.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment \
                 --batch-size=16 --test-batch-size=16 --epochs 20 {}  --gpu-id {} --model-dir ./model_resnet/ '\
                 .format(dataset, parameter, gpu_set[idx%number_gpu]) 
         print(command)
