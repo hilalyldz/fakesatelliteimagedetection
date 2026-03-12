@@ -289,7 +289,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
                     fft_img[21:203, 21:203] = 0
                 fft_img = np.fft.fftshift(fft_img)
             im[:, :, i] = fft_img
-            return im
+        return im
 
     def wavelet_transformation(self, im):
         im = im.astype(np.float32)
@@ -302,6 +302,11 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
 
         resized_channels = [cv2.resize(c, (224, 224), interpolation=cv2.INTER_LINEAR) for c in wavelet_channels]
         im = np.stack(resized_channels, axis=0).astype(np.float32)
+        # Normalize to [-1,1]
+        im_min = im.min()
+        im_max = im.max()
+        im = (im - im_min) / (im_max - im_min + 1e-8)
+        im = (im - 0.5) * 2
         return im
 
     def high_pass_filter(self, fft_shifted):
@@ -318,10 +323,13 @@ def create_loaders():
 
     kwargs = {'num_workers': args.num_workers, 'pin_memory': args.pin_memory} if args.cuda else {}
 
-    transform = transforms.Compose([
+    if args.feature == 'wavelet':
+        transform = None
+    else:
+        transform = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
-            ])
+            transforms.Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))
+    ])
 
     # Load full training dataset
     full_train_dataset = GANDataset(
@@ -541,6 +549,15 @@ def test(test_loader, model, epoch, logger, logger_test_name):
                     "pred": pred[i].item(),  # model prediction
                     "index": global_idx
                 })
+            else:
+                j =random.randint(0, global_idx)
+                if j < MAX_CAM_SAMPLES:
+                    cam_cache = {
+                    "tensor": image_pair[i].detach().cpu(),
+                    "gt": label[i].item(),  # ground truth
+                    "pred": pred[i].item(),  # model prediction
+                    "index": global_idx
+                }
             global_idx += 1
 
     band_stats = {
