@@ -191,7 +191,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         
         img = self.data[index]
         label = self.labels[index]
-        self.args.model = 'resnet'
+
         if self.train:
             #data augmentation for training
             if args.data_augment:
@@ -319,6 +319,7 @@ class GANDataset(cycleGAN_dataset.cycleGAN_dataset):
         return fft_filtered
 
 def create_loaders():
+
     test_dataset_names = copy.copy(dataset_names)
 
     kwargs = {'num_workers': args.num_workers, 'pin_memory': args.pin_memory} if args.cuda else {}
@@ -801,16 +802,21 @@ def read_test_images():
 
     return images, labels
 
-def plot_losses():
+def plot_losses(save_path="loss_curve.png"):
     plt.figure(figsize=(8, 6))
-    plt.plot(range(1, len(train_losses) + 1), train_losses, label='Train Loss', marker='o')
-    plt.plot(range(1, len(val_losses) + 1), val_losses, label='Validation Loss', marker='o')
+    plt.plot(range(1, len(train_losses) + 1), train_losses,
+             label='Train Loss', marker='o')
+    plt.plot(range(1, len(val_losses) + 1), val_losses,
+             label='Validation Loss', marker='o')
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.title('Training and Validation Loss')
     plt.legend()
     plt.grid()
-    plt.show()
+
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    plt.close()   # <-- important: prevents showing / memory leak
+
 
 def adjust_learning_rate(optimizer):
     """Updates the learning rate given the learning rate decay.
@@ -843,11 +849,15 @@ def create_optimizer(model, new_lr):
 def main(train_loader, val_loader, test_loaders, model, logger):
     print('\nparsed options:\n{}\n'.format(vars(args)))
 
+    # Set device
+    device = torch.device("cuda" if args.cuda else "cpu")
+    model = model.to(device)
+
     optimizer1 = create_optimizer(model, args.lr)
     criterion = nn.CrossEntropyLoss()
-    if args.cuda:
-        model.cuda()
-        criterion.cuda()
+    #if args.cuda:
+    #    model.cuda()
+    #    criterion.cuda()
 
     # optionally resume from a checkpoint
     if args.resume:
@@ -862,14 +872,16 @@ def main(train_loader, val_loader, test_loaders, model, logger):
             
     start = args.start_epoch
     end = start + args.epochs
-    for test_loader in test_loaders:
-        test(test_loader['dataloader'], model, 0, logger, test_loader['name'])
+    #for test_loader in test_loaders:
+    #    test(test_loader['dataloader'], model, 0, logger, test_loader['name'])
     for epoch in range(start, end):
         # iterate over test loaders and test results
         train(train_loader,val_loader, model, optimizer1, criterion, epoch, logger)
-        if epoch==(end-1):
-            for test_loader in test_loaders:
-                test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
+        #if epoch==(end-1):
+        #    for test_loader in test_loaders:
+        #        test(test_loader['dataloader'], model, epoch+1, logger, test_loader['name'])
+    for test_loader in test_loaders:
+        test(test_loader['dataloader'], model, end-1, logger, test_loader['name'])
     plot_losses()
         
 if __name__ == '__main__':
@@ -883,7 +895,7 @@ if __name__ == '__main__':
     pretrain_flag = not args.feature=='comatrix'
     if args.model == 'resnet':
         if args.feature == 'wavelet':
-            model = models.resnet34(pretrained=True)
+            model = models.resnet34(pretrained=False)
             new_input_channels = 12  # because you use LL, LH, HL, HH for R, G, B
             original_conv = model.conv1
             model.conv1 = nn.Conv2d(

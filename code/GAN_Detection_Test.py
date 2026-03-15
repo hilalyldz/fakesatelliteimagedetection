@@ -52,7 +52,7 @@ parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 
 # Training settings
 parser.add_argument('--dataroot', type=str,
-                    default='./CMF_Data/',
+                    default=r'C:\Users\yild_hi\Desktop\GAN_Data_Deneme',
                     help='path to dataset')
 parser.add_argument('--training-set', default= 'horse',
                     help='The name of the training set. If leave_one_out flag is set, \
@@ -757,7 +757,7 @@ if __name__ == '__main__':
     if args.model == 'resnet':
         if args.feature == 'wavelet':
 
-            model = models.resnet34(pretrained=True)
+            model = models.resnet34(pretrained=False)
 
             # Modify first conv layer to accept 12 channels
             original_conv = model.conv1
