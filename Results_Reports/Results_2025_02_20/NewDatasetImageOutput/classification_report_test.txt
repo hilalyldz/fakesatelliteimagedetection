@@ -1,0 +1,79 @@
+
+==================================================
+Epoch 1/20
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.48      0.82      0.61       200
+        real       0.39      0.12      0.18       200
+
+    accuracy                           0.47       400
+   macro avg       0.44      0.47      0.39       400
+weighted avg       0.44      0.47      0.39       400
+
+Confusion Matrix:
+[[164  36]
+ [177  23]]
+
+Test set: Accuracy: 0.46750000
+
+==================================================
+Epoch 22/20
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.93      0.99      0.96       200
+        real       0.99      0.93      0.96       200
+
+    accuracy                           0.96       400
+   macro avg       0.96      0.96      0.96       400
+weighted avg       0.96      0.96      0.96       400
+
+Confusion Matrix:
+[[199   1]
+ [ 14 186]]
+
+Test set: Accuracy: 0.96250000
+
+==================================================
+
+Batch 79 Loss: 0.5036: 100%|██████████| 80/80 [03:28<00:00,  2.61s/it]
+Epoch 2, Train Loss: 0.6661, Val Loss: 0.2062, Val Acc: 92.50%
+Batch 79 Loss: 0.0255: 100%|██████████| 80/80 [03:54<00:00,  2.93s/it]
+Epoch 3, Train Loss: 0.1632, Val Loss: 0.1532, Val Acc: 93.75%
+Batch 79 Loss: 0.2207: 100%|██████████| 80/80 [03:46<00:00,  2.83s/it]
+Epoch 4, Train Loss: 0.1265, Val Loss: 0.1369, Val Acc: 94.38%
+Batch 79 Loss: 0.0135: 100%|██████████| 80/80 [04:09<00:00,  3.12s/it]
+Epoch 5, Train Loss: 0.0674, Val Loss: 0.1548, Val Acc: 95.31%
+Batch 79 Loss: 0.0072: 100%|██████████| 80/80 [04:06<00:00,  3.09s/it]
+Epoch 6, Train Loss: 0.0513, Val Loss: 0.1395, Val Acc: 95.94%
+Batch 79 Loss: 0.0208: 100%|██████████| 80/80 [04:43<00:00,  3.54s/it]
+Epoch 7, Train Loss: 0.0563, Val Loss: 0.1276, Val Acc: 95.31%
+Batch 79 Loss: 0.0382: 100%|██████████| 80/80 [04:12<00:00,  3.15s/it]
+Epoch 8, Train Loss: 0.0544, Val Loss: 0.1726, Val Acc: 94.69%
+Batch 79 Loss: 0.0006: 100%|██████████| 80/80 [04:10<00:00,  3.13s/it]
+Epoch 9, Train Loss: 0.0275, Val Loss: 0.1485, Val Acc: 95.94%
+Batch 79 Loss: 0.0086: 100%|██████████| 80/80 [04:14<00:00,  3.18s/it]
+Epoch 10, Train Loss: 0.0274, Val Loss: 0.0911, Val Acc: 96.25%
+Batch 79 Loss: 0.1689: 100%|██████████| 80/80 [04:11<00:00,  3.14s/it]
+Epoch 11, Train Loss: 0.0124, Val Loss: 0.1516, Val Acc: 94.38%
+Batch 79 Loss: 0.0004: 100%|██████████| 80/80 [04:05<00:00,  3.07s/it]
+Epoch 12, Train Loss: 0.0496, Val Loss: 0.1196, Val Acc: 96.25%
+Batch 79 Loss: 0.0072: 100%|██████████| 80/80 [04:11<00:00,  3.14s/it]
+Epoch 13, Train Loss: 0.0351, Val Loss: 0.2638, Val Acc: 92.81%
+Batch 79 Loss: 0.0170: 100%|██████████| 80/80 [04:15<00:00,  3.19s/it]
+Epoch 14, Train Loss: 0.0299, Val Loss: 0.0724, Val Acc: 96.56%
+Batch 79 Loss: 0.0008: 100%|██████████| 80/80 [04:22<00:00,  3.28s/it]
+Epoch 15, Train Loss: 0.0248, Val Loss: 0.1055, Val Acc: 96.25%
+Batch 79 Loss: 0.0112: 100%|██████████| 80/80 [03:52<00:00,  2.90s/it]
+Epoch 16, Train Loss: 0.0358, Val Loss: 0.1207, Val Acc: 95.62%
+Batch 79 Loss: 0.0007: 100%|██████████| 80/80 [03:33<00:00,  2.67s/it]
+Epoch 17, Train Loss: 0.0358, Val Loss: 0.1994, Val Acc: 94.38%
+Batch 79 Loss: 0.0061: 100%|██████████| 80/80 [03:48<00:00,  2.85s/it]
+Epoch 18, Train Loss: 0.0285, Val Loss: 0.1350, Val Acc: 96.25%
+Batch 79 Loss: 0.0015: 100%|██████████| 80/80 [03:24<00:00,  2.56s/it]
+Epoch 19, Train Loss: 0.0234, Val Loss: 0.1492, Val Acc: 94.38%
+Batch 79 Loss: 0.0394: 100%|██████████| 80/80 [03:29<00:00,  2.62s/it]
+Epoch 20, Train Loss: 0.0299, Val Loss: 0.1160, Val Acc: 95.94%
+Batch 79 Loss: 0.0003: 100%|██████████| 80/80 [03:18<00:00,  2.48s/it]
+Epoch 21, Train Loss: 0.0077, Val Loss: 0.1011, Val Acc: 96.88%

@@ -1,0 +1,105 @@
+C:\Users\yild_hi\AppData\Local\anaconda3\python.exe C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\run_training.py --dataset=CycleGAN --feature=fft --gpu-id=0
+Test Parameter:  --feature=fft
+python ./code/GAN_Detection_Train.py --training-set satellite --model=resnet --test-set=transposed_conv --data_augment                --batch-size=16 --test-batch-size=16  --feature=fft  --gpu-id 0 --model-dir ./model_resnet/  --log-dir ./resnet_log/ --enable-logging=False --epochs 20
+Wait for process end
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:208: UserWarning:
+
+The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:223: UserWarning:
+
+Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet34_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet34_Weights.DEFAULT` to get the most up-to-date weights.
+
+2025-07-17 11:39:03.204953: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-07-17 11:39:06.146035: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+# Caching data ./datasets/satellite_train.pt
+Search string : ./datasets//real/satellite/train/*.jpg
+C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\cycleGAN_dataset.py:67: FutureWarning:
+
+You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+
+# Found cached data ./datasets/satellite_test.pt
+# Caching data ./datasets/satellite_test.pt
+Search string : ./datasets//real/satellite/test/*.jpg
+
+parsed options:
+{'dataroot': './datasets/', 'training_set': 'satellite', 'test_set': 'transposed_conv', 'feature': 'fft', 'mode': 0, 'leave_one_out': False, 'jpg_level': '90', 'resize_size': '200', 'enable_logging': True, 'log_dir': './resnet_log/', 'model_dir': './model_resnet/', 'model': 'resnet', 'num_workers': 1, 'pin_memory': True, 'resume': '', 'start_epoch': 1, 'epochs': 20, 'batch_size': 16, 'test_batch_size': 16, 'lr': 0.01, 'lr_decay': 0.01, 'wd': 0.0001, 'optimizer': 'sgd', 'data_augment': True, 'check_cached': True, 'seed': -1, 'interval': 5, 'no_cuda': False, 'gpu_id': '0', 'cuda': False, 'class_names': ['fake', 'real']}
+
+26it [00:22,  1.14it/s]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.49      0.81      0.61       204
+        real       0.43      0.14      0.21       204
+
+    accuracy                           0.48       408
+   macro avg       0.46      0.48      0.41       408
+weighted avg       0.46      0.48      0.41       408
+
+Confusion Matrix:
+[[166  38]
+ [175  29]]
+Test set: satellite
+
+Test set: Accuracy: 0.47794118
+
+Batch 114 Loss: 0.7009: 100%|██████████| 115/115 [05:01<00:00,  2.62s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 2, Train Loss: 0.8159, Val Loss: 0.7355, Val Acc: 47.17%
+Batch 114 Loss: 0.8441: 100%|██████████| 115/115 [05:39<00:00,  2.95s/it]
+Epoch 3, Train Loss: 0.7393, Val Loss: 0.9015, Val Acc: 48.91%
+Batch 114 Loss: 0.7895: 100%|██████████| 115/115 [05:24<00:00,  2.82s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 4, Train Loss: 0.7135, Val Loss: 0.7412, Val Acc: 47.83%
+Batch 114 Loss: 1.0433: 100%|██████████| 115/115 [05:20<00:00,  2.79s/it]
+Epoch 5, Train Loss: 0.7424, Val Loss: 0.8317, Val Acc: 51.09%
+Batch 114 Loss: 0.6665: 100%|██████████| 115/115 [06:13<00:00,  3.25s/it]
+Epoch 6, Train Loss: 0.7341, Val Loss: 0.7306, Val Acc: 49.13%
+Batch 114 Loss: 0.6733: 100%|██████████| 115/115 [06:13<00:00,  3.25s/it]
+Epoch 7, Train Loss: 0.7205, Val Loss: 0.7497, Val Acc: 48.48%
+Batch 114 Loss: 0.7566: 100%|██████████| 115/115 [06:15<00:00,  3.26s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 8, Train Loss: 0.7170, Val Loss: 0.7393, Val Acc: 43.48%
+Batch 114 Loss: 0.7007: 100%|██████████| 115/115 [06:16<00:00,  3.27s/it]
+Epoch 9, Train Loss: 0.7264, Val Loss: 0.7524, Val Acc: 47.83%
+Batch 114 Loss: 0.7572: 100%|██████████| 115/115 [06:17<00:00,  3.29s/it]
+Epoch 10, Train Loss: 0.7217, Val Loss: 0.8051, Val Acc: 50.00%
+Batch 114 Loss: 0.7564: 100%|██████████| 115/115 [06:20<00:00,  3.31s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 11, Train Loss: 0.7126, Val Loss: 0.7428, Val Acc: 44.57%
+Batch 114 Loss: 0.6872: 100%|██████████| 115/115 [06:18<00:00,  3.29s/it]
+Epoch 12, Train Loss: 0.7012, Val Loss: 0.7360, Val Acc: 46.52%
+Batch 114 Loss: 0.5767: 100%|██████████| 115/115 [06:19<00:00,  3.30s/it]
+Epoch 13, Train Loss: 0.7265, Val Loss: 0.8013, Val Acc: 48.48%
+Batch 114 Loss: 0.7686: 100%|██████████| 115/115 [06:22<00:00,  3.33s/it]
+Epoch 14, Train Loss: 0.7331, Val Loss: 0.9309, Val Acc: 48.26%
+Batch 114 Loss: 0.7977: 100%|██████████| 115/115 [06:16<00:00,  3.28s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 15, Train Loss: 0.7366, Val Loss: 0.9082, Val Acc: 48.91%
+Batch 114 Loss: 0.7039: 100%|██████████| 115/115 [06:15<00:00,  3.27s/it]
+Epoch 16, Train Loss: 0.7196, Val Loss: 0.8145, Val Acc: 46.52%
+Batch 114 Loss: 0.7412: 100%|██████████| 115/115 [06:00<00:00,  3.14s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 17, Train Loss: 0.7072, Val Loss: 0.7710, Val Acc: 39.57%
+Batch 114 Loss: 0.6551: 100%|██████████| 115/115 [06:00<00:00,  3.14s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 18, Train Loss: 0.7118, Val Loss: 0.7839, Val Acc: 41.96%
+Batch 114 Loss: 0.6325: 100%|██████████| 115/115 [06:32<00:00,  3.41s/it]
+Epoch 19, Train Loss: 0.6865, Val Loss: 0.8052, Val Acc: 38.70%
+Batch 114 Loss: 0.7209: 100%|██████████| 115/115 [04:57<00:00,  2.59s/it]
+Epoch 20, Train Loss: 0.7135, Val Loss: 0.8407, Val Acc: 45.22%
+Batch 114 Loss: 0.6730: 100%|██████████| 115/115 [05:03<00:00,  2.64s/it]
+0it [00:00, ?it/s]Epoch 21, Train Loss: 0.6853, Val Loss: 0.8248, Val Acc: 41.30%
+26it [00:24,  1.05it/s]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.52      0.83      0.64       204
+        real       0.57      0.23      0.32       204
+
+    accuracy                           0.53       408
+   macro avg       0.54      0.53      0.48       408
+weighted avg       0.54      0.53      0.48       408
+
+Confusion Matrix:
+[[169  35]
+ [158  46]]
+Test set: satellite
+
+Test set: Accuracy: 0.52696078
+
+
+Process finished with exit code 0

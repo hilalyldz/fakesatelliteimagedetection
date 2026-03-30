@@ -1,0 +1,77 @@
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.00      0.00      0.00       204
+        real       0.50      1.00      0.67       204
+
+    accuracy                           0.50       408
+   macro avg       0.25      0.50      0.33       408
+weighted avg       0.25      0.50      0.33       408
+
+Confusion Matrix:
+[[  0 204]
+ [  0 204]]
+Test set: satellite
+
+Test set: Accuracy: 0.50000000
+
+Batch 114 Loss: 0.6370: 100%|██████████| 115/115 [05:06<00:00,  2.67s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 2, Train Loss: 0.8803, Val Loss: 0.7216, Val Acc: 48.70%
+Batch 114 Loss: 0.7421: 100%|██████████| 115/115 [05:10<00:00,  2.70s/it]
+Epoch 3, Train Loss: 0.7230, Val Loss: 0.7146, Val Acc: 48.26%
+Batch 114 Loss: 0.7298: 100%|██████████| 115/115 [05:27<00:00,  2.85s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 4, Train Loss: 0.7292, Val Loss: 0.7241, Val Acc: 50.22%
+Batch 114 Loss: 0.8478: 100%|██████████| 115/115 [05:24<00:00,  2.82s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 5, Train Loss: 0.7431, Val Loss: 0.8458, Val Acc: 48.91%
+Batch 114 Loss: 0.6835: 100%|██████████| 115/115 [05:09<00:00,  2.69s/it]
+Epoch 6, Train Loss: 0.7141, Val Loss: 0.7113, Val Acc: 49.13%
+Batch 114 Loss: 0.6527: 100%|██████████| 115/115 [05:05<00:00,  2.66s/it]
+Epoch 7, Train Loss: 0.7275, Val Loss: 0.8602, Val Acc: 51.09%
+Batch 114 Loss: 0.6157: 100%|██████████| 115/115 [05:15<00:00,  2.75s/it]
+Epoch 8, Train Loss: 0.7202, Val Loss: 0.8348, Val Acc: 51.09%
+Batch 114 Loss: 0.8018: 100%|██████████| 115/115 [05:09<00:00,  2.69s/it]
+Epoch 9, Train Loss: 0.7416, Val Loss: 0.7328, Val Acc: 50.43%
+Batch 114 Loss: 0.6572: 100%|██████████| 115/115 [05:09<00:00,  2.69s/it]
+Epoch 10, Train Loss: 0.7085, Val Loss: 0.7139, Val Acc: 48.26%
+Batch 114 Loss: 0.6938: 100%|██████████| 115/115 [05:35<00:00,  2.92s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 11, Train Loss: 0.7146, Val Loss: 0.7584, Val Acc: 51.30%
+Batch 114 Loss: 0.6947: 100%|██████████| 115/115 [06:23<00:00,  3.34s/it]
+Epoch 12, Train Loss: 0.7058, Val Loss: 0.7423, Val Acc: 48.48%
+Batch 114 Loss: 0.6966: 100%|██████████| 115/115 [05:29<00:00,  2.87s/it]
+Epoch 13, Train Loss: 0.6848, Val Loss: 0.7755, Val Acc: 49.78%
+Batch 114 Loss: 0.8507: 100%|██████████| 115/115 [05:11<00:00,  2.71s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 14, Train Loss: 0.7018, Val Loss: 0.8144, Val Acc: 50.87%
+Batch 114 Loss: 0.6961: 100%|██████████| 115/115 [05:23<00:00,  2.82s/it]
+Epoch 15, Train Loss: 0.7120, Val Loss: 0.7337, Val Acc: 42.61%
+Batch 114 Loss: 0.8106: 100%|██████████| 115/115 [05:19<00:00,  2.78s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 16, Train Loss: 0.7014, Val Loss: 0.7736, Val Acc: 47.39%
+Batch 114 Loss: 0.6645: 100%|██████████| 115/115 [05:09<00:00,  2.69s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 17, Train Loss: 0.7069, Val Loss: 0.7271, Val Acc: 46.30%
+Batch 114 Loss: 0.5716: 100%|██████████| 115/115 [05:07<00:00,  2.67s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 18, Train Loss: 0.7075, Val Loss: 0.8133, Val Acc: 51.09%
+Batch 114 Loss: 0.6979: 100%|██████████| 115/115 [05:09<00:00,  2.69s/it]
+  0%|          | 0/115 [00:00<?, ?it/s]Epoch 19, Train Loss: 0.6970, Val Loss: 0.7482, Val Acc: 45.43%
+Batch 114 Loss: 0.6948: 100%|██████████| 115/115 [05:09<00:00,  2.69s/it]
+Epoch 20, Train Loss: 0.6915, Val Loss: 0.7429, Val Acc: 45.65%
+Batch 114 Loss: 0.6780: 100%|██████████| 115/115 [05:10<00:00,  2.70s/it]
+Epoch 21, Train Loss: 0.6966, Val Loss: 0.7528, Val Acc: 45.87%
+26it [00:26,  1.01s/it]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.49      0.90      0.64       204
+        real       0.45      0.08      0.14       204
+
+    accuracy                           0.49       408
+   macro avg       0.47      0.49      0.39       408
+weighted avg       0.47      0.49      0.39       408
+
+Confusion Matrix:
+[[183  21]
+ [187  17]]
+Test set: satellite
+
+Test set: Accuracy: 0.49019608
+
+
+Process finished with exit code 0

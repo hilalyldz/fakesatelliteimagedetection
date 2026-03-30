@@ -1,0 +1,489 @@
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:208: UserWarning:
+
+The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:223: UserWarning:
+
+Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet34_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet34_Weights.DEFAULT` to get the most up-to-date weights.
+
+./model_resnet_calisan/satellite_da_fft_1_resnet/checkpoint_20.pth
+C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\GAN_Detection_Test.py:839: FutureWarning:
+
+You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+
+['satellite']
+# Found cached data C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\datasets\satellite_test.pt
+# Caching data C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\datasets\satellite_test.pt
+Search string : C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\datasets/real/satellite/test/*.jpg
+C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\cycleGAN_dataset.py:67: FutureWarning:
+
+You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+
+
+parsed options:
+{'dataroot': 'C:\\Users\\yild_hi\\PycharmProjects\\fakesatelliteimagedetection1\\datasets', 'training_set': 'satellite', 'test_set': 'transposed_conv', 'feature': 'fft', 'mode': 1, 'leave_one_out': False, 'jpg_level': '90', 'resize_size': '200', 'result_dir': './final_output/', 'model_dir': './model_resnet_calisan/', 'model': 'resnet', 'num_workers': 1, 'pin_memory': True, 'resume': '', 'start_epoch': 1, 'epochs': 20, 'batch_size': 16, 'test_batch_size': 16, 'lr': 0.01, 'wd': 0.0001, 'data_augment': True, 'check_cached': True, 'seed': -1, 'no_cuda': False, 'gpu_id': '0', 'cuda': False, 'class_names': ['fake', 'real']}
+
+
+0it [00:00, ?it/s]
+1it [00:01,  1.43s/it]
+2it [00:02,  1.45s/it]
+3it [00:04,  1.40s/it]
+4it [00:05,  1.39s/it]
+5it [00:07,  1.42s/it]
+6it [00:10,  1.96s/it]
+7it [00:13,  2.43s/it]
+8it [00:14,  2.08s/it]
+9it [00:16,  1.85s/it]
+10it [00:17,  1.70s/it]
+11it [00:18,  1.61s/it]
+12it [00:20,  1.50s/it]
+13it [00:21,  1.47s/it]
+14it [00:22,  1.45s/it]
+15it [00:24,  1.39s/it]
+16it [00:25,  1.39s/it]
+17it [00:27,  1.40s/it]
+18it [00:28,  1.36s/it]
+19it [00:29,  1.38s/it]
+20it [00:31,  1.38s/it]
+21it [00:32,  1.42s/it]
+22it [00:34,  1.41s/it]
+23it [00:35,  1.44s/it]
+24it [00:36,  1.32s/it]
+24it [00:36,  1.52s/it]
+Searching: C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\datasets/real/satellite/test/*.jpg
+Searching: C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\datasets/fake/satellite/test/*.jpg
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-0
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-1
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-2
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-3
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-4
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-5
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-6
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-7
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-8
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-9
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-10
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-11
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-12
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-13
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-14
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-15
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-16
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-17
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-18
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-19
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-20
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-21
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-22
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-23
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-24
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-25
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-26
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-27
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-28
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-29
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-30
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-31
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-32
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-33
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-34
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-35
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-36
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-37
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-38
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-39
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-40
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-41
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-42
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-43
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-44
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-45
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-46
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-47
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-48
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-49
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-50
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-51
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-52
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-53
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-54
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-55
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-56
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-57
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-58
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-59
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-60
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-61
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-62
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-63
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-64
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-65
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-66
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-67
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-68
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-69
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-70
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-71
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-72
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-73
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-74
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-75
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-76
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-77
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-78
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-79
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-80
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-81
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-82
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-83
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-84
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-85
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-86
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-87
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-88
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-89
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-90
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-91
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-92
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-93
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-94
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-95
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-96
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-97
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-98
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-99
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-100
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-101
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-102
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-103
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-104
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-105
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-106
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-107
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-108
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-109
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-110
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-111
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-112
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-113
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-114
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-115
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-116
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-117
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-118
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-119
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-120
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-121
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-122
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-123
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-124
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-125
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-126
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-127
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-128
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-129
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-130
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-131
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-132
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-133
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-134
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-135
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-136
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-137
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-138
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-139
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-140
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-141
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-142
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-143
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-144
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-145
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-146
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-147
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-148
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-149
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-150
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-151
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-152
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-153
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-154
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-155
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-156
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-157
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-158
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-159
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-160
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-161
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-162
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-163
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-164
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-165
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-166
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-167
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-168
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-169
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-170
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-171
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-172
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-173
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-174
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-175
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-176
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-177
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-178
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-179
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-180
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-181
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-182
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-183
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-184
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-185
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-186
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-187
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-188
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-real_PRED-real_IDX-189
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-190
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-191
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-192
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-193
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-194
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-195
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-196
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-197
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-198
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-199
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-200
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-201
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-202
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-203
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-204
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-205
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-206
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-207
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-208
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-209
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-210
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-211
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-212
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-213
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-214
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-215
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-216
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-217
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-218
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-219
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-220
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-221
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-222
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-223
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-224
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-225
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-226
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-227
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-228
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-229
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-230
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-231
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-232
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-233
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-234
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-235
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-236
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-237
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-238
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-239
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-240
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-241
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-242
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-243
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-244
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-245
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-246
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-247
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-248
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-249
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-250
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-251
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-252
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-253
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-254
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-255
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-256
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-257
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-258
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-259
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-260
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-261
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-262
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-263
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-264
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-265
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-266
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-267
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-268
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-269
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-270
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-271
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-272
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-273
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-274
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-275
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-276
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-277
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-278
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-279
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-280
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-281
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-282
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-283
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-284
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-285
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-286
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-287
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-288
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-289
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-290
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-291
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-292
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-293
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-294
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-295
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-296
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-297
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-298
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-299
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-300
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-301
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-302
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-303
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-304
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-305
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-306
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-307
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-308
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-309
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-310
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-311
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-312
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-313
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-314
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-315
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-316
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-317
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-318
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-319
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-320
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-321
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-322
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-323
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-324
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-325
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-326
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-327
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-328
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-329
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-330
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-331
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-332
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-333
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-334
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-335
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-336
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-337
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-338
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-339
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-340
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-341
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-342
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-343
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-344
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-345
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-346
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-347
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-348
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-349
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-350
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-351
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-352
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-353
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-354
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-355
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-356
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-357
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-358
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-359
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-360
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-361
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-362
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-363
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-364
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-365
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-366
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-367
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-368
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-369
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-370
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-371
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-372
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-373
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-374
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-375
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-376
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-377
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-378
+[Saved] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/FFT_GT-fake_PRED-real_IDX-379
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\sklearn\metrics\_classification.py:1731: UndefinedMetricWarning:
+
+Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\sklearn\metrics\_classification.py:1731: UndefinedMetricWarning:
+
+Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\sklearn\metrics\_classification.py:1731: UndefinedMetricWarning:
+
+Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.00      0.00      0.00       190
+        real       0.50      1.00      0.67       190
+
+    accuracy                           0.50       380
+   macro avg       0.25      0.50      0.33       380
+weighted avg       0.25      0.50      0.33       380
+
+Confusion Matrix:
+[[  0 190]
+ [  0 190]]
+
+==============================
+ BAND CONTRIBUTION ANALYSIS
+==============================
+
+ GLOBAL AVERAGE:
+LOW : 0.0000
+MID : 0.0004
+HIGH: 0.0118
+
+ CLASS: REAL
+LOW : 0.0000
+MID : 0.0006
+HIGH: 0.0163
+
+ CLASS: FAKE
+LOW : 0.0000
+MID : 0.0002
+HIGH: 0.0073
+[Saved Plot] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/band_contribution_plot.png
+[Saved Plot] C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/high_freq_distribution.png
+[91mTest set: satellite
+[0m
+[91mTest set: Accuracy: 0.50000000
+[0m
+[91mTest set: TPR: 1.00000000
+[0m
+[91mTest set: TNR: 0.00000000
+[0m
+[0m

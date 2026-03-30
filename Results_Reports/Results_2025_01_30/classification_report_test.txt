@@ -1,0 +1,3 @@
+Hello Luca,
+
+I was trying to be able to get compact model from DefakeHop project. But DefakeHop project takes an input for face images which is consists of 3 areas (mouth, left eye and right eye). Before the classification model there are 3 pre-processing steps. One of them is landmarking which is to extract feature of 3 areas, second one is creation of the patches from the one images and the last one is about combining all this data and label into a file. As a result of this 

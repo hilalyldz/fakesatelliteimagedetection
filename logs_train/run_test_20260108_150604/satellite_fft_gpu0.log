@@ -1,0 +1,95 @@
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:208: UserWarning:
+
+The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:223: UserWarning:
+
+Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet34_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet34_Weights.DEFAULT` to get the most up-to-date weights.
+
+2026-01-08 15:06:12.503708: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-01-08 15:06:16.591757: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+# Found cached data ./datasets/satellite_train.pt
+# Caching data ./datasets/satellite_train.pt
+Search string : ./datasets//real/satellite/train/*.jpg
+C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\cycleGAN_dataset.py:67: FutureWarning:
+
+You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+
+# Found cached data ./datasets/satellite_test.pt
+# Caching data ./datasets/satellite_test.pt
+Search string : ./datasets//real/satellite/test/*.jpg
+
+parsed options:
+{'dataroot': './datasets/', 'training_set': 'satellite', 'test_set': 'transposed_conv', 'feature': 'fft', 'mode': 0, 'leave_one_out': False, 'jpg_level': '90', 'resize_size': '200', 'enable_logging': True, 'log_dir': './resnet_log/', 'model_dir': './model_resnet/', 'model': 'resnet', 'num_workers': 1, 'pin_memory': True, 'resume': '', 'start_epoch': 1, 'epochs': 20, 'batch_size': 16, 'test_batch_size': 16, 'lr': 0.01, 'lr_decay': 0.01, 'wd': 0.0001, 'optimizer': 'sgd', 'data_augment': True, 'check_cached': True, 'seed': -1, 'interval': 5, 'no_cuda': False, 'gpu_id': '0', 'cuda': False, 'class_names': ['fake', 'real']}
+
+
+0it [00:00, ?it/s]
+1it [00:00,  6.49it/s]
+1it [00:00,  6.49it/s]
+Searching: ./datasets//real/satellite/test/*.jpg
+Searching: ./datasets//fake/satellite/test/*.jpg
+[GradCAM] Sample-0
+  GT   : real
+  Pred : real
+  Band scores: {'LOW': 0.13763124, 'MID': 0.038731646, 'HIGH': 0.0}
+  FAKE decision dominated by: LOW
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.1376
+  MID: 0.0387
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+[GradCAM] Sample-1
+  GT   : fake
+  Pred : real
+  Band scores: {'LOW': 0.0, 'MID': 0.0, 'HIGH': 0.0}
+  FAKE decision dominated by: LOW
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.1376
+  MID: 0.0387
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\sklearn\metrics\_classification.py:1731: UndefinedMetricWarning:
+
+Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\sklearn\metrics\_classification.py:1731: UndefinedMetricWarning:
+
+Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\sklearn\metrics\_classification.py:1731: UndefinedMetricWarning:
+
+Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.00      0.00      0.00         1
+        real       0.50      1.00      0.67         1
+
+    accuracy                           0.50         2
+   macro avg       0.25      0.50      0.33         2
+weighted avg       0.25      0.50      0.33         2
+
+Confusion Matrix:
+[[0 1]
+ [0 1]]
+[91mTest set: satellite
+[0m
+[91mTest set: Accuracy: 0.50000000
+[0m
+
+  0%|          | 0/80 [00:00<?, ?it/s]

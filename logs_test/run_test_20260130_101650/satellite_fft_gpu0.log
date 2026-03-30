@@ -1,0 +1,166 @@
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:208: UserWarning:
+
+The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+
+C:\Users\yild_hi\AppData\Local\anaconda3\Lib\site-packages\torchvision\models\_utils.py:223: UserWarning:
+
+Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet34_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet34_Weights.DEFAULT` to get the most up-to-date weights.
+
+./model_resnet/satellite_da_fft_0_resnet/checkpoint_20.pth
+C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\GAN_Detection_Test.py:553: FutureWarning:
+
+You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+
+['satellite']
+# Found cached data ./datasets/satellite_test.pt
+# Caching data ./datasets/satellite_test.pt
+Search string : ./datasets//real/satellite/test/*.jpg
+C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\code\cycleGAN_dataset.py:67: FutureWarning:
+
+You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+
+
+parsed options:
+{'dataroot': './datasets/', 'training_set': 'satellite', 'test_set': 'transposed_conv', 'feature': 'fft', 'mode': 0, 'leave_one_out': False, 'jpg_level': '90', 'resize_size': '200', 'result_dir': './final_output/', 'model_dir': './model_resnet/', 'model': 'resnet', 'num_workers': 1, 'pin_memory': True, 'resume': '', 'start_epoch': 1, 'epochs': 20, 'batch_size': 16, 'test_batch_size': 16, 'lr': 0.01, 'wd': 0.0001, 'data_augment': True, 'check_cached': True, 'seed': -1, 'no_cuda': False, 'gpu_id': '0', 'cuda': False, 'class_names': ['fake', 'real']}
+
+
+0it [00:00, ?it/s]
+1it [00:00,  1.43it/s]
+2it [00:01,  1.48it/s]
+3it [00:01,  1.52it/s]
+4it [00:02,  1.31it/s]
+5it [00:03,  1.29it/s]
+6it [00:04,  1.36it/s]
+7it [00:05,  1.41it/s]
+8it [00:05,  1.44it/s]
+9it [00:06,  1.44it/s]
+10it [00:07,  1.43it/s]
+11it [00:07,  1.40it/s]
+12it [00:08,  1.39it/s]
+12it [00:08,  1.40it/s]
+Searching: ./datasets//real/satellite/test/*.jpg
+Searching: ./datasets//fake/satellite/test/*.jpg
+[GradCAM] Sample-0
+  GT   : fake
+  Pred : fake
+  Band scores: {'LOW': 0.28446904, 'MID': 0.36904365, 'HIGH': 0.32805791}
+  FAKE decision dominated by: MID
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.2845
+  MID: 0.3690
+  HIGH: 0.3281
+[GradCAM] Sample-1
+  GT   : fake
+  Pred : fake
+  Band scores: {'LOW': 0.25343126, 'MID': 0.36433396, 'HIGH': 0.3377505}
+  FAKE decision dominated by: MID
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.2690
+  MID: 0.3667
+  HIGH: 0.3329
+[GradCAM] Sample-2
+  GT   : fake
+  Pred : fake
+  Band scores: {'LOW': 0.15886441, 'MID': 0.26943395, 'HIGH': 0.27502152}
+  FAKE decision dominated by: HIGH
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.2323
+  MID: 0.3343
+  HIGH: 0.3136
+[GradCAM] Sample-3
+  GT   : fake
+  Pred : fake
+  Band scores: {'LOW': 0.33953702, 'MID': 0.4623159, 'HIGH': 0.42188174}
+  FAKE decision dominated by: MID
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.2591
+  MID: 0.3663
+  HIGH: 0.3407
+[GradCAM] Sample-4
+  GT   : fake
+  Pred : fake
+  Band scores: {'LOW': 0.14115779, 'MID': 0.20968284, 'HIGH': 0.19314933}
+  FAKE decision dominated by: MID
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.2355
+  MID: 0.3350
+  HIGH: 0.3112
+[GradCAM] Sample-5
+  GT   : fake
+  Pred : fake
+  Band scores: {'LOW': 0.09618573, 'MID': 0.23073587, 'HIGH': 0.23077893}
+  FAKE decision dominated by: HIGH
+
+=== Average FAKE Grad-CAM Band Contribution ===
+
+Class: REAL
+  LOW: 0.0000
+  MID: 0.0000
+  HIGH: 0.0000
+
+Class: FAKE
+  LOW: 0.2123
+  MID: 0.3176
+  HIGH: 0.2978
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       1.00      0.97      0.99       190
+        real       0.17      1.00      0.29         1
+
+    accuracy                           0.97       191
+   macro avg       0.58      0.99      0.64       191
+weighted avg       1.00      0.97      0.98       191
+
+Confusion Matrix:
+[[185   5]
+ [  0   1]]
+[91mTest set: satellite
+[0m
+[91mTest set: Accuracy: 0.97382199
+[0m
+[91mTest set: TPR: 1.00000000
+[0m
+[91mTest set: TNR: 0.97368421
+[0m
+[0m

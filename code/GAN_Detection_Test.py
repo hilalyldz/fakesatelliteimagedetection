@@ -52,7 +52,7 @@ parser = argparse.ArgumentParser(description='PyTorch GAN Image Detection')
 
 # Training settings
 parser.add_argument('--dataroot', type=str,
-                    default=r'C:\Users\yild_hi\Desktop\GAN_Data_Deneme',
+                    default=r'C:\Users\yild_hi\PycharmProjects\fakesatelliteimagedetection1\datasets',
                     help='path to dataset')
 parser.add_argument('--training-set', default= 'horse',
                     help='The name of the training set. If leave_one_out flag is set, \
@@ -364,13 +364,12 @@ def test(test_loader, model, epoch, logger_test_name):
     outputs = []
 
     cam_cache = []
-    MAX_CAM_SAMPLES = 6
     global_idx = 0
 
     # Create CAM directory per epoch
     if not os.path.exists(
-            f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_18_02/cam_epoch_{epoch}"):
-        os.makedirs(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_18_02/cam_epoch_{epoch}")
+            f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT"):
+        os.makedirs(f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT")
     # Set up Grad Cam for ResNet model
     device = torch.device("cuda" if args.cuda else "cpu")
     model = model.to(device)
@@ -404,13 +403,12 @@ def test(test_loader, model, epoch, logger_test_name):
 
         # Cached data for Grad-CAM
         for i in range(image_pair.size(0)):
-            if len(cam_cache) < MAX_CAM_SAMPLES:
-                cam_cache.append({
-                    "tensor": image_pair[i].detach().cpu(),
-                    "gt": label[i].item(),  # ground truth
-                    "pred": pred[i].item(),  # model prediction
-                    "index": global_idx
-                })
+            cam_cache.append({
+                "tensor": image_pair[i].detach().cpu(),
+                "gt": label[i].item(),  # ground truth
+                "pred": pred[i].item(),  # model prediction
+                "index": global_idx
+            })
             global_idx += 1
 
     band_stats = {
@@ -418,95 +416,6 @@ def test(test_loader, model, epoch, logger_test_name):
         "fake": {"LOW": [], "MID": [], "HIGH": []}
     }
     spatial_images, _ = read_test_images()
-    '''
-    # Grad-CAM visualization — only for a few samples
-    # === FFT Grad-CAM (FAKE class) ===
-    for k, sample in enumerate(cam_cache):
-        gt_label = args.class_names[sample["gt"]]  # REAL / FAKE
-        pred_label = args.class_names[sample["pred"]]  # REAL / FAKE
-        input_tensor = sample["tensor"].unsqueeze(0).to(device)
-
-        # 0 = FAKE, 1 = REAL (according to your class order)
-        target = [ClassifierOutputTarget(0)]
-        cam_class = "FAKE_CAM"
-
-        grayscale_cam = cam(
-            input_tensor=input_tensor,
-            targets=target
-        )[0]
-
-        # Normalize CAM
-        cam_norm = (grayscale_cam - grayscale_cam.min()) / \
-                   (grayscale_cam.max() - grayscale_cam.min() + 1e-8)
-
-        # Band analysis
-        scores, dominant_band = band_contribution(cam_norm)
-        for band, score in scores.items():
-            band_stats[gt_label][band].append(score)
-
-        print(f"[GradCAM] Sample-{k}")
-        print(f"  GT   : {gt_label}")
-        print(f"  Pred : {pred_label}")
-        print(f"  Band scores: {scores}")
-        print(f"  FAKE decision dominated by: {dominant_band}")
-        print("\n=== Average FAKE Grad-CAM Band Contribution ===")
-        for class_name in band_stats:  # 'real' / 'fake'
-            print(f"\nClass: {class_name.upper()}")
-            for band in band_stats[class_name]:  # 'LOW', 'MID', 'HIGH'
-                values = band_stats[class_name][band]
-                avg = np.mean(values) if values else 0.0
-                print(f"  {band}: {avg:.4f}")
-
-        # ----- Load corresponding spatial image -----
-        spatial_img = spatial_images[sample["index"]]
-        spatial_img = cv2.cvtColor(spatial_img, cv2.COLOR_BGR2RGB)
-        spatial_img = cv2.resize(spatial_img, (224, 224))
-        spatial_img = spatial_img.astype(np.float32) / 255.0
-
-        # ----- FFT → spatial backprojection -----
-        fft_channels = fft_complex_rgb(spatial_img)
-        spatial_map = spatial_backprojection(fft_channels, cam_norm)
-
-        # ----- Overlay spatial artifact map -----
-        overlay = show_cam_on_image(
-            spatial_img,
-            spatial_map,
-            use_rgb=True
-        )
-
-        # ----- Save results -----
-        base_path = (
-            f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/"
-            f"Spectral_Explainability/cam_epoch_{epoch}/"
-            f"GT-{gt_label}_PRED-{pred_label}_IDX-{sample['index']}"
-        )
-
-        cv2.imwrite(f"{base_path}_fft_cam.png", (cam_norm * 255).astype(np.uint8))
-        cv2.imwrite(f"{base_path}_spatial_projection.png", (overlay * 255).astype(np.uint8))
-        ## Save frequency CAM # First version of the gradcam
-        #cam_uint8 = (cam_norm * 255).astype(np.uint8)
-        #save_path = (
-        #    f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/"
-        #    f"Cam_Results/cam_epoch_{epoch}/"
-        #    f"fft_cam_{batch_idx}_{i}_{dominant_band}.png"
-        #)
-        #cv2.imwrite(save_path, cam_uint8)
-        plt.figure(figsize=(4, 4))
-        plt.imshow(cam_norm, cmap='jet')
-        plt.colorbar(fraction=0.046, pad=0.04)
-        plt.axis('off')
-        plt.tight_layout()
-        plt.savefig(f"{base_path}_fft_cam_colorbar.png", dpi=300)
-        plt.close()
-        plt.figure(figsize=(4, 4))
-        plt.imshow(spatial_map, cmap='jet')
-        plt.colorbar(fraction=0.046, pad=0.04)
-        plt.axis('off')
-        plt.tight_layout()
-        plt.savefig(f"{base_path}_spatial_projection_colorbar.png", dpi=300)
-        plt.close()
-
-    '''
 
     # ===============================
     # Grad-CAM Visualization (ALL FEATURES)
@@ -622,7 +531,7 @@ def test(test_loader, model, epoch, logger_test_name):
         # ------------------------------------------------
         base_path = (
             f"C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/"
-            f"Spectral_Explainability_18_02/cam_epoch_{epoch}/"
+            f"Spectral_Explainability_FFT/"
             f"{args.feature.upper()}_GT-{gt_label}_PRED-{pred_label}_IDX-{sample['index']}"
         )
 
@@ -674,6 +583,10 @@ def test(test_loader, model, epoch, logger_test_name):
         # 5️⃣ Save Band Statistics (for FFT & Wavelet)
         # ------------------------------------------------
         scores, dominant_band = band_contribution(cam_norm)
+        # CLASS-BASED AGGREGATION
+        band_stats[gt_label]["LOW"].append(scores["LOW"])
+        band_stats[gt_label]["MID"].append(scores["MID"])
+        band_stats[gt_label]["HIGH"].append(scores["HIGH"])
 
         with open(f"{base_path}_band_stats.txt", "w") as f:
             f.write(f"GT: {gt_label}\n")
@@ -687,6 +600,138 @@ def test(test_loader, model, epoch, logger_test_name):
 
     performance_metrics(all_labels, all_preds, epoch)
 
+    print("\n==============================")
+    print(" BAND CONTRIBUTION ANALYSIS")
+    print("==============================")
+
+    # -------- GLOBAL --------
+    all_low = []
+    all_mid = []
+    all_high = []
+
+    for cls in band_stats:
+        all_low += band_stats[cls]["LOW"]
+        all_mid += band_stats[cls]["MID"]
+        all_high += band_stats[cls]["HIGH"]
+
+    print("\n GLOBAL AVERAGE:")
+    print(f"LOW : {np.mean(all_low):.4f}")
+    print(f"MID : {np.mean(all_mid):.4f}")
+    print(f"HIGH: {np.mean(all_high):.4f}")
+
+    # -------- CLASS-BASED --------
+    for cls in band_stats:
+        print(f"\n CLASS: {cls.upper()}")
+
+        low_vals = band_stats[cls]["LOW"]
+        mid_vals = band_stats[cls]["MID"]
+        high_vals = band_stats[cls]["HIGH"]
+
+        print(f"LOW : {np.mean(low_vals):.4f}")
+        print(f"MID : {np.mean(mid_vals):.4f}")
+        print(f"HIGH: {np.mean(high_vals):.4f}")
+
+    summary_csv_path = os.path.join(
+        "C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/",
+        "band_summary.csv"
+    )
+
+    with open(summary_csv_path, "w", newline="") as f:
+        writer = csv.writer(f)
+
+        writer.writerow(["Type", "LOW", "MID", "HIGH"])
+
+        # Global
+        writer.writerow([
+            "GLOBAL",
+            np.mean(all_low),
+            np.mean(all_mid),
+            np.mean(all_high)
+        ])
+
+        # Class-based
+        for cls in band_stats:
+            writer.writerow([
+                cls,
+                np.mean(band_stats[cls]["LOW"]),
+                np.mean(band_stats[cls]["MID"]),
+                np.mean(band_stats[cls]["HIGH"])
+            ])
+
+    # ===============================
+    # BAR PLOT (GLOBAL vs REAL vs FAKE)
+    # ===============================
+
+    band_labels = ['LOW', 'MID', 'HIGH']
+
+    global_vals = [
+        np.mean(all_low),
+        np.mean(all_mid),
+        np.mean(all_high)
+    ]
+
+    real_vals = [
+        np.mean(band_stats['real']['LOW']),
+        np.mean(band_stats['real']['MID']),
+        np.mean(band_stats['real']['HIGH'])
+    ]
+
+    fake_vals = [
+        np.mean(band_stats['fake']['LOW']),
+        np.mean(band_stats['fake']['MID']),
+        np.mean(band_stats['fake']['HIGH'])
+    ]
+
+    x = np.arange(len(band_labels))
+    width = 0.25
+
+    plt.figure(figsize=(8, 6))
+
+    plt.bar(x - width, global_vals, width, label='Global')
+    plt.bar(x, real_vals, width, label='Real')
+    plt.bar(x + width, fake_vals, width, label='Fake')
+
+    plt.xticks(x, band_labels)
+    plt.ylabel('Average Contribution')
+    plt.title('Frequency Band Contribution Analysis')
+
+    plt.legend()
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+    # SAVE
+    plot_path = os.path.join(
+        "C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/",
+        "band_contribution_plot.png"
+    )
+
+    plt.tight_layout()
+    plt.savefig(plot_path, dpi=300)
+    plt.close()
+
+    print(f"[Saved Plot] {plot_path}")
+
+    plt.figure(figsize=(8, 6))
+
+    plt.hist(band_stats['real']['HIGH'], bins=30, alpha=0.5, label='Real')
+    plt.hist(band_stats['fake']['HIGH'], bins=30, alpha=0.5, label='Fake')
+
+    plt.xlabel('High Frequency Contribution')
+    plt.ylabel('Count')
+    plt.title('Distribution of High-Frequency Contribution')
+
+    plt.legend()
+    plt.grid(alpha=0.3)
+
+    hist_path = os.path.join(
+        "C:/Users/yild_hi/PycharmProjects/fakesatelliteimagedetection1/Spectral_Explainability_FFT/",
+        "high_freq_distribution.png"
+    )
+
+    plt.tight_layout()
+    plt.savefig(hist_path, dpi=300)
+    plt.close()
+
+    print(f"[Saved Plot] {hist_path}")
 
     num_tests = test_loader.dataset.labels.size(0)
     labels = np.vstack(labels).reshape(num_tests)

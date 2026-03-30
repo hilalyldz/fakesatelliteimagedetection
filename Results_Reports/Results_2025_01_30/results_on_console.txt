@@ -1,0 +1,110 @@
+25it [00:29,  1.18s/it]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       0.50      1.00      0.67       200
+        real       1.00      0.01      0.03       200
+
+    accuracy                           0.51       400
+   macro avg       0.75      0.51      0.35       400
+weighted avg       0.75      0.51      0.35       400
+
+Confusion Matrix:
+[[200   0]
+ [197   3]]
+Test set: satellite
+
+Test set: Accuracy: 0.50750000
+
+Batch 99 Loss: 0.0022: 100%|██████████| 100/100 [05:48<00:00,  3.49s/it]
+Batch 99 Loss: 0.0007: 100%|██████████| 100/100 [06:18<00:00,  3.78s/it]
+Batch 99 Loss: 0.0003: 100%|██████████| 100/100 [06:03<00:00,  3.63s/it]
+Batch 99 Loss: 0.0008: 100%|██████████| 100/100 [06:29<00:00,  3.90s/it]
+25it [00:29,  1.17s/it]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       1.00      1.00      1.00       200
+        real       1.00      1.00      1.00       200
+
+    accuracy                           1.00       400
+   macro avg       1.00      1.00      1.00       400
+weighted avg       1.00      1.00      1.00       400
+
+Confusion Matrix:
+[[200   0]
+ [  0 200]]
+Test set: satellite
+
+Test set: Accuracy: 1.00000000
+
+Batch 99 Loss: 0.0020: 100%|██████████| 100/100 [06:07<00:00,  3.68s/it]
+Batch 99 Loss: 0.0004: 100%|██████████| 100/100 [06:24<00:00,  3.84s/it]
+Batch 99 Loss: 0.0005: 100%|██████████| 100/100 [06:22<00:00,  3.82s/it]
+Batch 99 Loss: 0.0003: 100%|██████████| 100/100 [06:21<00:00,  3.82s/it]
+Batch 99 Loss: 0.0004: 100%|██████████| 100/100 [05:39<00:00,  3.40s/it]
+25it [00:43,  1.73s/it]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       1.00      1.00      1.00       200
+        real       1.00      1.00      1.00       200
+
+    accuracy                           1.00       400
+   macro avg       1.00      1.00      1.00       400
+weighted avg       1.00      1.00      1.00       400
+
+Confusion Matrix:
+[[200   0]
+ [  0 200]]
+Test set: satellite
+
+Test set: Accuracy: 1.00000000
+
+Batch 99 Loss: 0.0007: 100%|██████████| 100/100 [06:39<00:00,  4.00s/it]
+Batch 99 Loss: 0.0001: 100%|██████████| 100/100 [06:04<00:00,  3.64s/it]
+Batch 99 Loss: 0.0002: 100%|██████████| 100/100 [06:18<00:00,  3.79s/it]
+Batch 99 Loss: 0.0034: 100%|██████████| 100/100 [06:28<00:00,  3.89s/it]
+Batch 99 Loss: 0.0000: 100%|██████████| 100/100 [06:30<00:00,  3.91s/it]
+25it [00:35,  1.42s/it]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       1.00      1.00      1.00       200
+        real       1.00      1.00      1.00       200
+
+    accuracy                           1.00       400
+   macro avg       1.00      1.00      1.00       400
+weighted avg       1.00      1.00      1.00       400
+
+Confusion Matrix:
+[[200   0]
+ [  0 200]]
+Test set: satellite
+
+Test set: Accuracy: 1.00000000
+
+Batch 99 Loss: 0.0001: 100%|██████████| 100/100 [06:24<00:00,  3.84s/it]
+Batch 99 Loss: 0.0000: 100%|██████████| 100/100 [06:22<00:00,  3.82s/it]
+Batch 99 Loss: 0.0004: 100%|██████████| 100/100 [06:13<00:00,  3.74s/it]
+Batch 99 Loss: 0.0002: 100%|██████████| 100/100 [06:36<00:00,  3.96s/it]
+Batch 99 Loss: 0.0000: 100%|██████████| 100/100 [06:56<00:00,  4.17s/it]
+25it [00:36,  1.47s/it]
+Classification Report:
+              precision    recall  f1-score   support
+
+        fake       1.00      1.00      1.00       200
+        real       1.00      1.00      1.00       200
+
+    accuracy                           1.00       400
+   macro avg       1.00      1.00      1.00       400
+weighted avg       1.00      1.00      1.00       400
+
+Confusion Matrix:
+[[200   0]
+ [  0 200]]
+Test set: satellite
+
+Test set: Accuracy: 1.00000000
+
+Batch 99 Loss: 0.0006: 100%|██████████| 100/100 [06:24<00:00,  3.85s/it]

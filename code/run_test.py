@@ -105,11 +105,11 @@ for dataset in datasets:
     for idx, parameter in enumerate(parameter_set):
         print('Test Parameter: {}'.format(parameter))
         command = 'python ./code/GAN_Detection_Test.py --training-set {} --model=resnet --test-set=transposed_conv --data_augment \
-                --batch-size=16 --test-batch-size=16 --epochs 20 {}  --gpu-id {} --model-dir ./ResNet_AllGANand_Reals/model_resnet/ '\
+                --batch-size=16 --test-batch-size=16 --epochs 20 {}  --gpu-id {} --model-dir ./model_resnet_calisan/ '\
                 .format(dataset, parameter, gpu_set[idx%number_gpu]) 
         print(command)
 
-        log_file_path = os.path.join(log_dir, f"{dataset}_{args.feature}_gpu{gpu_set[idx % number_gpu]}.log")
+        log_file_path = os.path.join(log_dir, f"{dataset}_{args.feature}_mode{idx}_gpu{gpu_set[idx % number_gpu]}.log")
 
         # Run command and tee output
         run_command(command, log_file_path)
