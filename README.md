@@ -12,3 +12,19 @@ on them.
 # From project directory
 python run_training.py --dataset=CycleGAN --feature=fft --gpu-id=0
 ```
+# GPU Version of the Project
+## Execution of the Program
+```bash
+# From project directory
+sbatch run_gpu_resnet.sh
+```
+## To see the the program is working
+```bash
+squeue -u di97zeq
+```
+## To see the the program is working on GPU
+```bash
+srun --jobid=11254397 nvidia-smi
+```
+
+conda activate resnet312

@@ -60,7 +60,7 @@ def get_settings():
 
     # Training settings
     parser.add_argument('--dataroot', type=str,
-                        default='/dss/dsshome1/09/di97zeq/Desktop/Dataset/',
+                        default='/dss/dsshome1/09/di97zeq/Desktop/FFT_ResNet/CMF_Data/',
                         help='path to dataset')
     parser.add_argument('--training-set', default= 'horse',
                         help='The name of the training set. If leave_one_out flag is set, \
@@ -562,7 +562,7 @@ def test(test_loader, model, epoch, logger, logger_test_name):
             else:
                 j =random.randint(0, global_idx)
                 if j < MAX_CAM_SAMPLES:
-                    cam_cache = {
+                    cam_cache[j] = {
                     "tensor": image_pair[i].detach().cpu(),
                     "gt": label[i].item(),  # ground truth
                     "pred": pred[i].item(),  # model prediction
@@ -570,6 +570,21 @@ def test(test_loader, model, epoch, logger, logger_test_name):
                 }
             global_idx += 1
 
+    
+    # calculation and saving performance metrics
+    performance_metrics(all_labels, all_preds, epoch)
+    #display_random_test_samples(image_pair, all_labels, all_preds)
+
+    num_tests = test_loader.dataset.labels.size(0)
+    labels = np.vstack(labels).reshape(num_tests)
+    predicts = np.vstack(predicts).reshape(num_tests)
+    outputs = np.vstack(outputs).reshape(num_tests,2)
+
+    print('\33[91mTest set: {}\n\33[0m'.format(logger_test_name))
+
+    acc = np.sum(labels == predicts)/float(num_tests)
+    print('\33[91mTest set: Accuracy: {:.8f}\n\33[0m'.format(acc))
+    
     band_stats = {
         "real": {"LOW": [], "MID": [], "HIGH": []},
         "fake": {"LOW": [], "MID": [], "HIGH": []}
@@ -704,19 +719,7 @@ def test(test_loader, model, epoch, logger, logger_test_name):
                 cv2.imwrite(original_path, original_uint8)
     '''
 
-    # calculation and saving performance metrics
-    performance_metrics(all_labels, all_preds, epoch)
-    #display_random_test_samples(image_pair, all_labels, all_preds)
-
-    num_tests = test_loader.dataset.labels.size(0)
-    labels = np.vstack(labels).reshape(num_tests)
-    predicts = np.vstack(predicts).reshape(num_tests)
-    outputs = np.vstack(outputs).reshape(num_tests,2)
-
-    print('\33[91mTest set: {}\n\33[0m'.format(logger_test_name))
-
-    acc = np.sum(labels == predicts)/float(num_tests)
-    print('\33[91mTest set: Accuracy: {:.8f}\n\33[0m'.format(acc))
+    
     
     if (args.enable_logging):
         logger.log_value(logger_test_name+' Acc', acc)
@@ -782,7 +785,7 @@ def read_test_images():
     """
     image_list = []
     label_list = []
-    data_dir = r"/dss/dsshome1/09/di97zeq/Desktop/Dataset"
+    data_dir = r"/dss/dsshome1/09/di97zeq/Desktop/FFT_ResNet/CMF_Data"
     dataset_name = 'satellite'
 
     # Define the search patterns for real and fake images

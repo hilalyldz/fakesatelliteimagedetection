@@ -102,35 +102,45 @@ class cycleGAN_dataset(data.Dataset):
             torch.save(dataset, f, pickle_protocol=5)
 
 def read_image_file(data_dir, dataset_name, train_flag):
-    """Return a Tensor containing the patches
-    """
+    """Return a Tensor containing the patches"""
+    
     image_list = []
     label_list = []
-    #load all possible jpg or png images
-    if train_flag:
-        search_str = '{}/real/{}/train/*.jpg'.format(data_dir, dataset_name)
-    else:
-        search_str = '{}/real/{}/test/*.jpg'.format(data_dir, dataset_name)
-
-    print(f'Search string : {search_str}')
-    for filename in glob.glob(search_str):
-        image = cv2.imread(filename)
-        if image.shape[0]!=256:
-            image = cv2.resize(image, (256,256))
-        image_list.append(image)
-        label_list.append(1)
     
     if train_flag:
-        search_str = '{}fake/{}/train/*.jpg'.format(data_dir, dataset_name)
+        real_path = f"{data_dir}/real/{dataset_name}/train/"
+        fake_path = f"{data_dir}/fake/{dataset_name}/train/"
     else:
-        search_str = '{}/fake/{}/test/*.jpg'.format(data_dir, dataset_name)
+        real_path = f"{data_dir}/real/{dataset_name}/test/"
+        fake_path = f"{data_dir}/fake/{dataset_name}/test/"
 
-    for filename in glob.glob(search_str):
-        image = cv2.imread(filename)
-        if image.shape[0]!=256:
-            image = cv2.resize(image, (256,256))
-        image_list.append(image)
-        label_list.append(0)
+    extensions = ["jpg", "png"]
+
+    # REAL images (label = 1)
+    for ext in extensions:
+        search_str = f"{real_path}*.{ext}"
+        print(f"Search string : {search_str}")
+        
+        for filename in glob.glob(search_str):
+            image = cv2.imread(filename)
+            if image.shape[0] != 256:
+                image = cv2.resize(image, (256,256))
+            
+            image_list.append(image)
+            label_list.append(1)
+
+    # FAKE images (label = 0)
+    for ext in extensions:
+        search_str = f"{fake_path}*.{ext}"
+        print(f"Search string : {search_str}")
+        
+        for filename in glob.glob(search_str):
+            image = cv2.imread(filename)
+            if image.shape[0] != 256:
+                image = cv2.resize(image, (256,256))
+            
+            image_list.append(image)
+            label_list.append(0)
 
     return np.array(image_list), np.array(label_list)
 

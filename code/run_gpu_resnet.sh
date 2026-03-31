@@ -11,7 +11,7 @@
 source ~/.bashrc
 conda activate resnet312
 
-FEATURE=wavelet
+FEATURE=fft
 
 python -u run_training.py --dataset satellite --feature $FEATURE --gpu-id 0
 
